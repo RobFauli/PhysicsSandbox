@@ -9,6 +9,7 @@
 #include <glm/vec3.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <memory>
 
 #include "Shaders/Shader.hpp"
 #include "Shapes/Shape.hpp"
@@ -17,8 +18,15 @@
 class Renderer {
 public:
 	Renderer() { };
-	Renderer(GLFWwindow *window, glm::vec4 clearColor) : _window(window), _clearColor(clearColor) {
-	}
+	Renderer(GLFWwindow *window, glm::vec4 clearColor)
+        : _window(window), _clearColor(clearColor),
+          _depthShader(std::make_unique<Shader>(
+              Shader("../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirVertexShader.glsl",
+    "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirGeometryShader.glsl",
+    "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirFragmentShader.glsl")))
+    {
+        setupDepthShaderSettings();
+    }
 	void draw(unsigned int width, unsigned int height, const glm::mat4 &view, const GLfloat fov);
 	void addObject (Shape* object) {
 		object->Setup(_window);
@@ -27,7 +35,7 @@ public:
     void addLightSource(LightSource* lightSource) {
         _lightSources.push_back(lightSource);
     }
-    void setDepthShader(Shader* depthShader);
+    void setupDepthShaderSettings();
     void drawDepthCubemap();
 
 private:
@@ -42,7 +50,7 @@ private:
     GLfloat _near = 1.0f;
     GLfloat _far = 25.0f;
 
-    Shader* _depthShader;
+    std::unique_ptr<Shader> _depthShader;
     GLuint _depthMapFBO;
     GLuint _depthCubemap;
 

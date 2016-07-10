@@ -13,12 +13,6 @@ int main()
          "../../Visualization/Shaders/GeometryShader.glsl",
          "../../Visualization/Shaders/FragmentShader.glsl");
 
-    Shader depthShader
-        ("../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirVertexShader.glsl",
-         "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirGeometryShader.glsl",
-         "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirFragmentShader.glsl");
-    //window.getRenderer().setDepthShader(&depthShader);
-
     auto R = 4u;
     std::unique_ptr<Cube> cube = std::make_unique<Cube>(Cube(shader, 1.0f, 1.0f, 1.0f));
     std::unique_ptr<IcoSphere> sphere = std::make_unique<IcoSphere>(IcoSphere(shader, R));

@@ -62,8 +62,8 @@ void Renderer::drawObject(const glm::mat4 &view, const glm::mat4 &projection, Sh
     object->Draw(modelLoc);
 }
 
-void Renderer::setDepthShader(Shader* depthShader) {
-    _depthShader = depthShader;
+void Renderer::setupDepthShaderSettings()
+{
     glGenTextures(1, &_depthCubemap);
     glGenFramebuffers(1, &_depthMapFBO);
 
