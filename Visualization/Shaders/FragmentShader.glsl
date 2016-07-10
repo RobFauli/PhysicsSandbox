@@ -26,7 +26,6 @@ float ShadowCoefficient(vec3 fragPos)
     float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
 
     return shadow;
-    //return closestDepth;
 }
 
 void main() {
@@ -39,8 +38,4 @@ void main() {
     vec3 result = (ambientFactor + (1.0 - shadow) * diffuse) * fs_in.color;
 
     color = vec4(result, 1.0f);
-    //color = vec4(vec3(shadow / 100e2*far_plane), 1.0f);
-
-    //vec3 fragToLight = fs_in.fragPos - lightPos;
-    //color = vec4(texture(depthMap, fragToLight), 1.0);
 }
