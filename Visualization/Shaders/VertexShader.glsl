@@ -18,6 +18,6 @@ void main()
 {
 	gl_Position = model * vec4(position, 1.0f);
 	vs_out.color = uniColor;
-	vs_out.fragPos = vec3(model * vec4(position, 1.0f));
+	vs_out.fragPos = vec3(gl_Position);
 	vs_out.model = model;
 }
