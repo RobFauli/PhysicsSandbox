@@ -33,6 +33,7 @@ private:
 	static GLFWwindow*_GLFWwindow;
 	static float _lastX;
 	static float _lastY;
+    static bool _mouseOn;
 };
 
 

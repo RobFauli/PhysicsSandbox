@@ -7,6 +7,7 @@
 
 bool Input::_keys[1024];
 bool Input::_firstMouse = true;
+bool Input::_mouseOn = true;
 Camera *Input::_camera = nullptr;
 GLFWwindow *Input::_GLFWwindow = nullptr;
 float Input::_lastX = 0;
@@ -43,6 +44,16 @@ void Input::do_movement()
 		_camera->Up = glm::rotate(_camera->Up, cameraRotSpeed, _camera->Front);
 	if(_keys[GLFW_KEY_E])
 		_camera->Up = glm::rotate(_camera->Up, -cameraRotSpeed, _camera->Front);
+    if(_keys[GLFW_KEY_TAB]) {
+        if (!_mouseOn)
+            glfwSetInputMode(_GLFWwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        else {
+            glfwSetInputMode(_GLFWwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            _firstMouse = true;
+        }
+        _mouseOn = !_mouseOn;
+    }
+
 }
 
 void Input::scroll_callback(GLFWwindow *window, double xoffset,
@@ -51,20 +62,21 @@ void Input::scroll_callback(GLFWwindow *window, double xoffset,
 }
 
 void Input::mouse_callback(GLFWwindow *window, double xpos, double ypos) {
-	if(_firstMouse)
-	{
-		_lastX = xpos;
-		_lastY = ypos;
-		_firstMouse = false;
-	}
+    if (_mouseOn) {
+        if (_firstMouse) {
+            _lastX = xpos;
+            _lastY = ypos;
+            _firstMouse = false;
+        }
 
-	GLfloat xoffset = xpos - _lastX;
-	GLfloat yoffset = _lastY - ypos;  // Reversed since y-coordinates go from bottom to left
+        GLfloat xoffset = xpos - _lastX;
+        GLfloat yoffset = _lastY - ypos;  // Reversed since y-coordinates go from bottom to left
 
-	_lastX = xpos;
-	_lastY = ypos;
+        _lastX = xpos;
+        _lastY = ypos;
 
-	_camera->ProcessMouseMovement(xoffset, yoffset);
+        _camera->ProcessMouseMovement(xoffset, yoffset);
+    }
 }
 
 void Input::SetCallbacks() {
