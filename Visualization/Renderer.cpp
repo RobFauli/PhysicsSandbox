@@ -6,7 +6,7 @@ void Renderer::draw(unsigned int width,
                    const GLfloat fov)
 {
     if (_depthShader) {
-        drawDepthCubemap();
+        drawDepthCubemaps();
         glViewport(0, 0, width, height);
     }
 
@@ -34,13 +34,14 @@ void Renderer::draw(unsigned int width,
         glUniform1f(ambientFactorLoc, 0.2f);
 
         glUniform1f(glGetUniformLocation(object->getShader()->getProgram(), "far_plane"), _far);
-        auto lightPos = _lightSources[0]->getPosition();
-        glUniform3fv(glGetUniformLocation(object->getShader()->getProgram(), "lightPos"),
-                     1,
-                     &lightPos[0]);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, _depthCubemap);
+        auto i = 0u;
+        for (auto pointLight : _pointLightSources) {
+            glUniform3fv(glGetUniformLocation(object->getShader()->getProgram(),
+                                              ("pointLightPos[" + std::to_string(i++) + "]").c_str()),
+                         1,
+                         &(pointLight->getPosition()[0]));
+        }
+        glUniform1ui(glGetUniformLocation(object->getShader()->getProgram(), "nPointLights"), i);
 
         drawObject(view, projection, object);
     }
@@ -64,10 +65,11 @@ void Renderer::drawObject(const glm::mat4 &view, const glm::mat4 &projection, Sh
 
 void Renderer::setupDepthShaderSettings()
 {
-    glGenTextures(1, &_depthCubemap);
-    glGenFramebuffers(1, &_depthMapFBO);
-
-    glBindTexture(GL_TEXTURE_CUBE_MAP, _depthCubemap);
+    auto k = _depthCubemaps.size() - 1u;
+    glGenTextures(1, &_depthCubemaps.back());
+    glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
+    glActiveTexture(GL_TEXTURE0 + k);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, _depthCubemaps.back());
     for (GLuint i = 0; i < 6; ++i) {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT,
                      _shadowWidth, _shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
@@ -79,15 +81,20 @@ void Renderer::setupDepthShaderSettings()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthCubemap, 0);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, _depthCubemaps.back(), 0);
     glDrawBuffer(GL_NONE); // Do not render to any color buffer.
     glReadBuffer(GL_NONE);
+
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "Framebuffer not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    _objects[0]->getShader()->Use();
+    glUniform1i(glGetUniformLocation(_objects[0]->getShader()->getProgram(),
+                                     ("depthMaps[" + std::to_string(k) + "]").c_str()), k);
 }
 
-void Renderer::drawDepthCubemap()
+void Renderer::drawDepthCubemaps()
 {
     auto shadowProj =
             glm::perspective(
@@ -95,25 +102,29 @@ void Renderer::drawDepthCubemap()
                 _near, _far
             );
 
-    auto lightPos = _lightSources[0]->getPosition();
-    std::vector<glm::mat4> shadowTransforms = getCubeViewMatrices(shadowProj, lightPos);
-
     glViewport(0, 0, _shadowWidth, _shadowHeight);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    _depthShader->Use();
-    for (GLuint i = 0; i < 6; ++i)
-        glUniformMatrix4fv(
-            glGetUniformLocation(
-                _depthShader->getProgram(),
-                ("viewMatrices[" + std::to_string(i) + "]").c_str()),
-            1, GL_FALSE, glm::value_ptr(shadowTransforms[i]));
-    glUniform1f(glGetUniformLocation(_depthShader->getProgram(), "far_plane"), _far);
-    glUniform3fv(glGetUniformLocation(_depthShader->getProgram(), "lightPos"), 1, &lightPos[0]);
-    GLint modelLoc = glGetUniformLocation(_depthShader->getProgram(), "model");
+    auto k = 0u;
+    for (auto &pointLightSource : _pointLightSources) {
+        glActiveTexture(GL_TEXTURE0 + k++);
+        auto lightPos = pointLightSource->getPosition();
+        std::vector<glm::mat4> shadowTransforms = getCubeViewMatrices(shadowProj, lightPos);
 
-    for (auto &object : _objects) {
-        object->Draw(modelLoc);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        _depthShader->Use();
+        for (GLuint i = 0; i < 6; ++i)
+            glUniformMatrix4fv(
+                glGetUniformLocation(
+                    _depthShader->getProgram(),
+                    ("viewMatrices[" + std::to_string(i) + "]").c_str()),
+                1, GL_FALSE, glm::value_ptr(shadowTransforms[i]));
+        glUniform1f(glGetUniformLocation(_depthShader->getProgram(), "far_plane"), _far);
+        glUniform3fv(glGetUniformLocation(_depthShader->getProgram(), "lightPos"), 1, &lightPos[0]);
+        GLint modelLoc = glGetUniformLocation(_depthShader->getProgram(), "model");
+
+        for (auto &object : _objects) {
+            object->Draw(modelLoc);
+        }
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

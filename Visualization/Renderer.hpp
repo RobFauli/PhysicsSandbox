@@ -25,7 +25,7 @@ public:
     "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirGeometryShader.glsl",
     "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirFragmentShader.glsl")))
     {
-        setupDepthShaderSettings();
+        glGenFramebuffers(1, &_depthMapFBO);
     }
 	void draw(unsigned int width, unsigned int height, const glm::mat4 &view, const GLfloat fov);
 	void addObject (Shape* object) {
@@ -33,14 +33,16 @@ public:
 		_objects.push_back(object);
 	}
     void addLightSource(LightSource* lightSource) {
-        _lightSources.push_back(lightSource);
+        _pointLightSources.push_back(lightSource);
+        _depthCubemaps.push_back(0);
+        setupDepthShaderSettings();
     }
     void setupDepthShaderSettings();
-    void drawDepthCubemap();
+    void drawDepthCubemaps();
 
 private:
 	std::vector<Shape*> _objects;
-    std::vector<LightSource*> _lightSources;
+    std::vector<LightSource*> _pointLightSources;
 	GLFWwindow* _window;
 	glm::vec4 _clearColor;
 
@@ -48,11 +50,11 @@ private:
     GLuint _shadowWidth = 1024;
     GLuint _shadowHeight = 1024;
     GLfloat _near = 1.0f;
-    GLfloat _far = 25.0f;
+    GLfloat _far = 250.0f;
 
     std::unique_ptr<Shader> _depthShader;
     GLuint _depthMapFBO;
-    GLuint _depthCubemap;
+    std::vector<GLuint> _depthCubemaps;
 
     void drawObject(const glm::mat4 &view, const glm::mat4 &projection, Shape *&object) const;
     std::vector<glm::mat4>
