@@ -15,7 +15,7 @@ void Renderer::draw(unsigned int width,
 
     // Projection:
     glm::mat4 projection;
-    projection = glm::perspective(fov, static_cast<float>(width)
+    projection = glm::perspective(glm::radians(fov), static_cast<float>(width)
                                       / static_cast<float>(height),
                                   _near, _far);
 
@@ -98,7 +98,7 @@ void Renderer::drawDepthCubemaps()
 {
     auto shadowProj =
             glm::perspective(
-                90.0f, static_cast<GLfloat>(_shadowWidth) / static_cast<GLfloat>(_shadowHeight),
+    glm::radians(90.0f), static_cast<GLfloat>(_shadowWidth) / static_cast<GLfloat>(_shadowHeight),
                 _near, _far
             );
 
