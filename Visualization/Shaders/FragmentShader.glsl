@@ -23,7 +23,7 @@ float ShadowCoefficient(vec3 fragPos, vec3 lightPos, samplerCube depthMap)
     float closestDepth = texture(depthMap, fragToLight).r;
     closestDepth *= far_plane;
     float currentDepth = length(fragToLight);
-    float bias = 0.0; //5;
+    float bias = 0.5;
     float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
 
     return shadow;
