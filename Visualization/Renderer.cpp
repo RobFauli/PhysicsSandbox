@@ -25,17 +25,17 @@ void Renderer::draw(unsigned int width,
 
 
         // Set light color:
-        auto lightColorLoc = glGetUniformLocation(object->getShader()->getProgram(), "lightColor");
+        const auto lightColorLoc = glGetUniformLocation(object->getShader()->getProgram(), "lightColor");
         glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 
         // Set ambient lighting:
-        auto ambientFactorLoc =
+        const auto ambientFactorLoc =
             glGetUniformLocation(object->getShader()->getProgram(), "ambientFactor");
         glUniform1f(ambientFactorLoc, 0.2f);
 
         glUniform1f(glGetUniformLocation(object->getShader()->getProgram(), "far_plane"), _far);
         auto i = 0u;
-        for (auto pointLight : _pointLightSources) {
+        for (const auto pointLight : _pointLightSources) {
             glUniform3fv(glGetUniformLocation(object->getShader()->getProgram(),
                                               ("pointLightPos[" + std::to_string(i++) + "]").c_str()),
                          1,
@@ -65,7 +65,7 @@ void Renderer::drawObject(const glm::mat4 &view, const glm::mat4 &projection, Sh
 
 void Renderer::setupDepthShaderSettings()
 {
-    auto k = _depthCubemaps.size() - 1u;
+    const auto k = _depthCubemaps.size() - 1u;
     glGenTextures(1, &_depthCubemaps.back());
     glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
     glActiveTexture(GL_TEXTURE0 + k);
@@ -96,7 +96,7 @@ void Renderer::setupDepthShaderSettings()
 
 void Renderer::drawDepthCubemaps()
 {
-    auto shadowProj =
+    const auto shadowProj =
             glm::perspective(
     glm::radians(90.0f), static_cast<GLfloat>(_shadowWidth) / static_cast<GLfloat>(_shadowHeight),
                 _near, _far
@@ -105,7 +105,7 @@ void Renderer::drawDepthCubemaps()
     glViewport(0, 0, _shadowWidth, _shadowHeight);
     glBindFramebuffer(GL_FRAMEBUFFER, _depthMapFBO);
     auto k = 0u;
-    for (auto &pointLightSource : _pointLightSources) {
+    for (const auto &pointLightSource : _pointLightSources) {
         glActiveTexture(GL_TEXTURE0 + k++);
         auto lightPos = pointLightSource->getPosition();
         std::vector<glm::mat4> shadowTransforms = getCubeViewMatrices(shadowProj, lightPos);
@@ -122,7 +122,7 @@ void Renderer::drawDepthCubemaps()
         glUniform3fv(glGetUniformLocation(_depthShader->getProgram(), "lightPos"), 1, &lightPos[0]);
         GLint modelLoc = glGetUniformLocation(_depthShader->getProgram(), "model");
 
-        for (auto &object : _objects) {
+        for (const auto &object : _objects) {
             object->Draw(modelLoc);
         }
     }
