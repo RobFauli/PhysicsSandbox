@@ -26,7 +26,7 @@ void Renderer::draw(unsigned int width,
 
         // Set ambient lighting:
         const auto ambientFactorLoc = glGetUniformLocation(program, "ambientFactor");
-        glUniform1f(ambientFactorLoc, 0.2f);
+        glUniform1f(ambientFactorLoc, _ambientLightFactor);
 
         glUniform1f(glGetUniformLocation(program, "far_plane"), _far);
         auto i = 0u;

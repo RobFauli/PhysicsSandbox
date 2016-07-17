@@ -40,6 +40,10 @@ public:
     void setupDepthShaderSettings();
     void drawDepthCubemaps();
 
+    void setAmbientLightFactor(GLfloat factor) {
+        _ambientLightFactor = factor;
+    }
+
 private:
 	std::vector<Shape*> _objects;
     std::vector<LightSource*> _pointLightSources;
@@ -51,6 +55,7 @@ private:
     GLuint _shadowHeight = 1024;
     GLfloat _near = 1.0f;
     GLfloat _far = 250.0f;
+    GLfloat _ambientLightFactor = 0.1;
 
     std::unique_ptr<Shader> _depthShader;
     GLuint _depthMapFBO;
