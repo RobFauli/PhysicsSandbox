@@ -10,7 +10,7 @@ out vec4 color;
 
 uniform uint nPointLights;
 uniform vec3 pointLightPos[10]; // Maximum 10 point lights
-uniform vec3 lightColor;
+uniform vec3 lightColors[10];
 uniform float ambientFactor;
 
 // Shadow related uniforms
@@ -29,13 +29,13 @@ float ShadowCoefficient(vec3 fragPos, vec3 lightPos, samplerCube depthMap)
     return shadow;
 }
 
-vec3 calculatePointLight(vec3 lightPos, samplerCube depthMap)
+vec3 calculatePointLight(uint n)
 {
-    vec3 lightDir = normalize(lightPos - fs_in.fragPos);
+    vec3 lightDir = normalize(pointLightPos[n] - fs_in.fragPos);
     float diff = max(dot(fs_in.normal, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
+    vec3 diffuse = diff * lightColors[n];
 
-    float shadow = ShadowCoefficient(fs_in.fragPos, lightPos, depthMap);
+    float shadow = ShadowCoefficient(fs_in.fragPos, pointLightPos[n], depthMaps[n]);
 
     vec3 result = (ambientFactor + (1.0 - shadow) * diffuse) * fs_in.color;
 
@@ -45,6 +45,6 @@ vec3 calculatePointLight(vec3 lightPos, samplerCube depthMap)
 void main() {
     vec3 result = vec3(0.0f);
     for (uint i = 0u; i < nPointLights; ++i)
-        result += calculatePointLight(pointLightPos[0], depthMaps[i]);
+        result += calculatePointLight(i);
     color = vec4(result, 1.0f);
 }

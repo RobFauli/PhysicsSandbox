@@ -22,26 +22,23 @@ void Renderer::draw(unsigned int width,
 
     for (auto &object : _objects) {
         object->getShader()->Use();
-
-
-        // Set light color:
-        const auto lightColorLoc = glGetUniformLocation(object->getShader()->getProgram(), "lightColor");
-        glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
+        auto program = object->getShader()->getProgram();
 
         // Set ambient lighting:
-        const auto ambientFactorLoc =
-            glGetUniformLocation(object->getShader()->getProgram(), "ambientFactor");
+        const auto ambientFactorLoc = glGetUniformLocation(program, "ambientFactor");
         glUniform1f(ambientFactorLoc, 0.2f);
 
-        glUniform1f(glGetUniformLocation(object->getShader()->getProgram(), "far_plane"), _far);
+        glUniform1f(glGetUniformLocation(program, "far_plane"), _far);
         auto i = 0u;
         for (const auto pointLight : _pointLightSources) {
-            glUniform3fv(glGetUniformLocation(object->getShader()->getProgram(),
-                                              ("pointLightPos[" + std::to_string(i++) + "]").c_str()),
-                         1,
-                         &(pointLight->getPosition()[0]));
+            glUniform3fv(
+                glGetUniformLocation(program, ("pointLightPos[" + std::to_string(i) + "]").c_str()),
+                         1, &(pointLight->getPosition()[0]));
+            glUniform3fv(
+                glGetUniformLocation(program, ("lightColors[" + std::to_string(i++) + "]").c_str()),
+                         1, &(pointLight->getLightColor()[0]));
         }
-        glUniform1ui(glGetUniformLocation(object->getShader()->getProgram(), "nPointLights"), i);
+        glUniform1ui(glGetUniformLocation(program, "nPointLights"), i);
 
         drawObject(view, projection, object);
     }
