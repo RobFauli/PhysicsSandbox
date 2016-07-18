@@ -14,7 +14,8 @@ include_directories(Physics Visualization)
 
 add_subdirectory(Physics)
 add_subdirectory(Visualization)
+add_subdirectory(ViPhy)
 add_subdirectory(unittests)
 
 
-target_link_libraries(physics_sandbox physics visualization )
+target_link_libraries(physics_sandbox viphy physics visualization )
