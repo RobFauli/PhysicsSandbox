@@ -6,7 +6,7 @@
 
 class Cube : public Triangles {
 public:
-    Cube(const Shader &shader, GLfloat length, GLfloat breadth, GLfloat height);
+    Cube(const Shader &shader, GLfloat length, GLfloat width, GLfloat height);
 
 };
 

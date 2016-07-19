@@ -4,14 +4,14 @@
 
 #include "Cube.hpp"
 
-Cube::Cube(const Shader &shader, GLfloat length, GLfloat breadth, GLfloat height) {
+Cube::Cube(const Shader &shader, GLfloat length, GLfloat width, GLfloat height) {
     _shader = &shader;
 
-    // The length, breadth and height is measured along the x, y and z-axis respectively.
+    // The length, width and height is measured along the x, y and z-axis respectively.
     GLfloat xa = -length / 2.0f;
     GLfloat xb = length / 2.0f;
-    GLfloat ya = -breadth / 2.0f;
-    GLfloat yb = breadth / 2.0f;
+    GLfloat ya = -width / 2.0f;
+    GLfloat yb = width / 2.0f;
     GLfloat za = -height / 2.0f;
     GLfloat zb = height / 2.0f;
 

@@ -23,9 +23,11 @@ public:
 
 	virtual GLuint getVAO() override { return VAO; };
 
-	Triangles(const std::vector<GLfloat> vertices, const std::vector<GLuint> indices, const Shader *shader,
-			  std::vector<glm::vec3> positions)
-			: _vertices(vertices), _indices(indices), _positions(positions), _shader(shader) { }
+	Triangles(const std::vector<GLfloat> vertices,
+              const std::vector<GLuint> indices,
+              const Shader *shader,
+              glm::vec3 position)
+			: _vertices(vertices), _indices(indices), _position(position), _shader(shader) { }
 
 	virtual void Setup(GLFWwindow *windowcontext) override {
 		glGenVertexArrays(1, &VAO);
@@ -37,17 +39,17 @@ public:
 
 	virtual void Draw(GLint modelLoc) override;
 
-	virtual const std::vector<glm::vec3> &getPositions() override {
-		return _positions;
+	virtual const glm::vec3 &getPosition() override {
+		return _position;
 	}
 
-    virtual const std::vector<GLfloat> &getRotations() override {
-		return _rotations;
+    virtual const GLfloat &getRotation() override {
+		return _rotation;
 	}
 
-    virtual const std::vector<glm::mat4> & getModelMatrices() override
+    virtual const glm::mat4 &getModelMatrix() override
     {
-        return _modelMatrices;
+        return _modelMatrix;
     }
 
     virtual const Shader *getShader() override {
@@ -57,35 +59,21 @@ public:
     // This could be confusing, need to have a look at this.
     // It resets rotations to zero if used to change positions.
     // TODO Clarify this interface.
-	void setPositions(const std::vector<glm::vec3> &positions) {
-		_positions = positions;
-        _rotations = std::vector<GLfloat>(_positions.size());
-        for (const auto &position : _positions) {
-            _modelMatrices.push_back(genModelMatrix(position));
-        }
+	void setPosition(const glm::vec3 &position) {
+        _modelMatrix = glm::translate(_modelMatrix, position - _position);
+		_position = position;
 	}
 
-	auto addObject(const glm::vec3 &position,
-                   const glm::vec3 &rotateAlong = glm::vec3(0, 0, 0),
-                   const GLfloat radiansRotated = 0)
+    virtual void setPosition(const GLfloat x, const GLfloat y, const GLfloat z)
     {
-		_positions.push_back(position);
-        _rotations.push_back(radiansRotated);
-        auto model = genModelMatrix(position, rotateAlong, radiansRotated);
-        _modelMatrices.push_back(model);
+        auto pos = glm::vec3(x, y, z);
+        setPosition(pos);
+    }
 
-        return _modelMatrices.size() - 1;
-	}
-
-	void addObject(const glm::vec3 &position, GLfloat angleRotated)
+    void rotate(glm::vec3 rotateAlong, GLfloat radians)
     {
-		_positions.push_back(position);
-        _rotations.push_back(angleRotated);
-	}
-
-    void rotateObject(unsigned int i, glm::vec3 rotateAlong, GLfloat radians) {
-        _rotations[i] += radians;
-        _modelMatrices[i] = glm::rotate(_modelMatrices[i], radians, rotateAlong);
+        _rotation += radians;
+        _modelMatrix = glm::rotate(_modelMatrix, radians, rotateAlong);
     }
 
 	void resizeByFactor(GLfloat factor) {
@@ -108,9 +96,9 @@ protected:
 	GLuint VAO, VBO, EBO;
 	std::vector<GLfloat> _vertices;
 	std::vector<GLuint> _indices;
-	std::vector<glm::vec3> _positions; // Position in world coordinates of all objects.
-	std::vector<GLfloat> _rotations;
-    std::vector<glm::mat4> _modelMatrices;
+	glm::vec3 _position; // Position in world coordinates of all objects.
+	GLfloat _rotation = 0.0f;
+    glm::mat4 _modelMatrix;
 	const Shader *_shader;
 
 	glm::vec3 _color; // Color of all triangles.

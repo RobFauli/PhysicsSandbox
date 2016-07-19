@@ -35,11 +35,9 @@ void Triangles::setVertexAttributes() const
 void Triangles::Draw(GLint modelLoc)
 {
     glBindVertexArray(VAO);
-    for (auto &model : _modelMatrices) {
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(_modelMatrix));
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(_indices.size()),
                        GL_UNSIGNED_INT, 0);
-    }
 	glBindVertexArray(0);
 }
 

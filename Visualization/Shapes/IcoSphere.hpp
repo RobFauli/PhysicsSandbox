@@ -27,8 +27,8 @@ void radialize(std::vector<GLfloat> &vertices, GLfloat radius);
 
 class IcoSphere : public Triangles {
 public:
-	IcoSphere(const Shader &shader, unsigned int refinementLevel)
-			: _refinementLevel(0), _radius(1.0) {
+	IcoSphere(const Shader &shader, unsigned int refinementLevel, GLfloat radius)
+			: _refinementLevel(0), _radius(radius) {
         _shader = &shader;
         GenerateIcosahedron();
 		Refine(refinementLevel);
