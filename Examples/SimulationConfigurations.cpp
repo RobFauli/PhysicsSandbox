@@ -1,5 +1,8 @@
 #include "SimulationConfigurations.hpp"
 
+// Needs changing as Triangles no longer can hold multiple poisitions (or copies) in one object.
+
+/*
 std::unique_ptr<Triangles> testTriangles(const Shader &shader, const std::vector<glm::vec3> positions) {
     std::vector<GLfloat> vertices{
         //Pos               //Color
@@ -100,7 +103,7 @@ void coldCollapseSimulation()
                     positions.push_back({position.x / max, position.y / max,
                                          position.z / max});
                 }
-                triangle_ptr->setPositions(positions);
+                triangle_ptr->setPosition(positions);
             }
             window.GameLoop();
         }
@@ -109,3 +112,4 @@ void coldCollapseSimulation()
     }
     window.CloseWindow();
 }
+ */
