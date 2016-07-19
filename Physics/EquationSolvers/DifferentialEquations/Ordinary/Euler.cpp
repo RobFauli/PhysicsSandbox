@@ -14,7 +14,7 @@ void Euler::step(const double dt,
     // Go a step:
     auto netFIt = netForces.begin();
     for (auto& body : bodies) {
-        body->adjustPosition(body->getVelocity() * dt);
+        body->move(body->getVelocity() * dt);
         body->adjustVelocity(*netFIt * dt / body->getMass());
     }
 }

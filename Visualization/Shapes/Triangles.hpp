@@ -64,19 +64,29 @@ public:
 		_position = position;
 	}
 
-    virtual void setPosition(const GLfloat x, const GLfloat y, const GLfloat z)
+    virtual void setPosition(const GLfloat x, const GLfloat y, const GLfloat z) override
     {
         auto pos = glm::vec3(x, y, z);
         setPosition(pos);
     }
 
-    void rotate(glm::vec3 rotateAlong, GLfloat radians)
+    virtual void move(const GLfloat dx, const GLfloat dy, const GLfloat dz) override
+    {
+        _position += glm::vec3(dx, dy, dz);
+    }
+
+    virtual void rotate(GLfloat radians, glm::vec3 rotateAlong) override
     {
         _rotation += radians;
         _modelMatrix = glm::rotate(_modelMatrix, radians, rotateAlong);
     }
 
-	void resizeByFactor(GLfloat factor) {
+    virtual void rotate(GLfloat radians, GLfloat pivotX, GLfloat pivotY, GLfloat pivotZ) override
+    {
+        rotate(radians, glm::vec3(pivotX, pivotY, pivotZ));
+    }
+
+    void resizeByFactor(GLfloat factor) {
 		int count = 0;
 		std::for_each(_vertices.begin(), _vertices.end(), [&count, factor](GLfloat &x) {
 			if (count < 3) x *= factor; else; if (count == 5) count = 0; else ++count;});

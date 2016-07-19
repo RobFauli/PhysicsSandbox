@@ -23,19 +23,21 @@ public:
     }
     void changePhysicalProperties(std::unique_ptr<Body> pp)
     {
-        //_physicalProperties = std::move(pp);
+        _physicalProperties = std::move(pp);
     }
     void setPosition(double x, double y, double z) {
-        //_physicalProperties->setPosition(x, y, z);
-        //_shape->setPosition(x, y, z, 0);
+        _physicalProperties->setPosition(x, y, z);
+        _shape->setPosition(x, y, z);
     }
     void move(double dx, double dy, double dz) {
-        //_physicalProperties->move(dx, dy, dz);
-        //_shape->move(dx, dy, dz);
+        _physicalProperties->move(dx, dy, dz);
+        _shape->move(dx, dy, dz);
     }
+
+    // TODO Need to implement rotations on the physical end as soon as we have rotatable objects.
     void rotate(double radians, double pivotX, double pivotY, double pivotZ) {
         //_physicalProperties->rotate(radians, pivotX, pivotY, pivotZ);
-        //_shape->rotate(radians, pivotX, pivotY, pivotZ);
+        _shape->rotate(radians, pivotX, pivotY, pivotZ);
     }
 private:
     std::unique_ptr<Body> _physicalProperties;

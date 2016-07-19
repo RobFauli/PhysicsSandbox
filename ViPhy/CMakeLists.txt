@@ -1,5 +1,5 @@
 set(Library_FILES
-        )
+        Object.cpp Object.hpp)
 
 add_library(viphy ${Library_FILES})
 

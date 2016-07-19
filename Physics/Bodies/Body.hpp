@@ -8,24 +8,28 @@
 
 class Body {
 public:
-	Vector3<double> getPosition() const { return position;} ;
-	Vector3<double> getVelocity() const { return velocity;} ;
+	Vector3<double> getPosition() const { return _position;} ;
+	Vector3<double> getVelocity() const { return _velocity;} ;
 	virtual double getMass() const = 0;
 	virtual double getCharge() const = 0;
-	void setPosition(const Vector3<double>& pos) { position = pos; };
-	void setVelocity(const Vector3<double>& velo) { velocity = velo; };
+	void setPosition(const Vector3<double>& pos) { _position = pos; };
+    void setPosition(double x, double y, double z) { _position = Vector3<double>(x, y, z); };
+	void setVelocity(const Vector3<double>& velo) { _velocity = velo; };
 	void adjustVelocity(const Vector3<double>& adjustment) {
-		velocity += adjustment; };
-	void adjustPosition(const Vector3<double>& adjustment) {
-		position += adjustment; };
+		_velocity += adjustment; };
+	void move(const Vector3<double> &adjustment) {
+		_position += adjustment; };
+    void move(const double dx, const double dy, const double dz) {
+        move(Vector3<double>(dx, dy, dz));
+    }
 
 	//virtual ~Body();
 protected:
 	//Body();
 
 private:
-	Vector3<double> position;
-	Vector3<double> velocity;
+	Vector3<double> _position;
+	Vector3<double> _velocity;
 };
 
 #endif /* BODY_HPP */

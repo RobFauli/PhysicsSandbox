@@ -99,9 +99,9 @@ void coldCollapseSimulation()
             if (i<maxInt) {
                 std::vector<glm::vec3> positions;
                 double max = r_max;
-                for (auto &position : posHist[i]) {
-                    positions.push_back({position.x / max, position.y / max,
-                                         position.z / max});
+                for (auto &_position : posHist[i]) {
+                    positions.push_back({_position.x / max, _position.y / max,
+                                         _position.z / max});
                 }
                 triangle_ptr->setPosition(positions);
             }

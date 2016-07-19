@@ -26,6 +26,9 @@ public:
     virtual const glm::vec3 &getColor() = 0;
 
     virtual void setPosition(const GLfloat x, const GLfloat y, const GLfloat z) = 0;
+    virtual void move(const GLfloat dx, const GLfloat dy, const GLfloat dz) = 0;
+    virtual void rotate(GLfloat radians, glm::vec3 rotateAlong) = 0;
+    virtual void rotate(GLfloat radians, GLfloat pivotX, GLfloat pivotY, GLfloat pivotZ) = 0;
 };
 
 

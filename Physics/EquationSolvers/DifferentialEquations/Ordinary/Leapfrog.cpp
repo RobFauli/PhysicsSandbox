@@ -22,7 +22,7 @@ void Leapfrog::step(const double dt,
     auto netFIt = netForces_i.begin();
     for (auto const &body : bodies) {
         *v_halfIt = (*v_halfIt + dt * *netFIt++ / body->getMass());
-		body->adjustPosition(dt * *v_halfIt++);
+        body->move(dt * *v_halfIt++);
     }
 
     std::vector<Vector3<double>> netForces_ip1(bodies.size());
