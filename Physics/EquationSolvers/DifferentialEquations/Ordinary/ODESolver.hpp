@@ -10,8 +10,8 @@
 class ODESolver {
 public:
     virtual void step(const double dt,
-					  std::vector<std::unique_ptr<Body>> &bodies,
-					  std::vector<std::shared_ptr<Force>> const &forces) = 0;
+                      std::vector<std::shared_ptr<Body>> &bodies,
+                      std::vector<std::shared_ptr<Force>> const &forces) = 0;
 
 	virtual ~ODESolver() { };
 };

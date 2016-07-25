@@ -21,8 +21,8 @@ void Renderer::draw(unsigned int width,
 
 
     for (auto &object : _objects) {
-        object->getShader()->Use();
-        auto program = object->getShader()->getProgram();
+        _shader.Use();
+        auto program = _shader.getProgram();
 
         // Set ambient lighting:
         const auto ambientFactorLoc = glGetUniformLocation(program, "ambientFactor");
@@ -44,17 +44,18 @@ void Renderer::draw(unsigned int width,
     }
 }
 
-void Renderer::drawObject(const glm::mat4 &view, const glm::mat4 &projection, Shape *&object) const
+void Renderer::drawObject(const glm::mat4 &view, const glm::mat4 &projection,
+                          std::shared_ptr<Shape> &object) const
 {
-    GLint modelLoc = glGetUniformLocation(object->getShader()->getProgram(), "model");
-    GLint viewLoc = glGetUniformLocation(object->getShader()->getProgram(), "view");
-    GLint projectionLoc = glGetUniformLocation(object->getShader()->getProgram(),
+    GLint modelLoc = glGetUniformLocation(_shader.getProgram(), "model");
+    GLint viewLoc = glGetUniformLocation(_shader.getProgram(), "view");
+    GLint projectionLoc = glGetUniformLocation(_shader.getProgram(),
 												   "projection");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE,
 						   glm::value_ptr(projection));
 
-    auto colorLocation = glGetUniformLocation(object->getShader()->getProgram(), "uniColor");
+    auto colorLocation = glGetUniformLocation(_shader.getProgram(), "uniColor");
     glUniform3fv(colorLocation, 1, glm::value_ptr(object->getColor()));
 
     object->Draw(modelLoc);
@@ -86,8 +87,8 @@ void Renderer::setupDepthShaderSettings()
         std::cout << "Framebuffer not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    _objects[0]->getShader()->Use();
-    glUniform1i(glGetUniformLocation(_objects[0]->getShader()->getProgram(),
+    _shader.Use();
+    glUniform1i(glGetUniformLocation(_shader.getProgram(),
                                      ("depthMaps[" + std::to_string(k) + "]").c_str()), k);
 }
 

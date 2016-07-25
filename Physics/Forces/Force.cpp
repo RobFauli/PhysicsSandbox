@@ -1,7 +1,7 @@
 #include "Force.hpp"
 
 std::vector<Vector3<double>> Force::getNetForceStrengths(
-		const std::vector<std::unique_ptr<Body>> &bodies) const
+		const std::vector<std::shared_ptr<Body>> &bodies) const
 {
 	std::vector<Vector3<double>> NetForce(bodies.size()); // F_i
 	auto FoIt = NetForce.begin();

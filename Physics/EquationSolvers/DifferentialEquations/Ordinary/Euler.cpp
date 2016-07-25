@@ -1,7 +1,7 @@
 #include "Euler.h"
 
 void Euler::step(const double dt,
-                 std::vector<std::unique_ptr<Body>> &bodies,
+                 std::vector<std::shared_ptr<Body>> &bodies,
                  std::vector<std::shared_ptr<Force>> const &forces) {
     std::vector<Vector3<double>> netForces(bodies.size());
     for (const auto& F : forces) {

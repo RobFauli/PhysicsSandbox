@@ -9,6 +9,7 @@
 #include <glm/vec3.hpp>
 #include <algorithm>
 #include <Tools/TransformationMatrices.hpp>
+#include <memory>
 
 #include "Shape.hpp"
 
@@ -16,18 +17,18 @@
 class Triangles : public Shape {
 public:
 	virtual ~Triangles() {
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &VBO);
-		glDeleteBuffers(1, &EBO);
+		//glDeleteVertexArrays(1, &VAO);
+		//glDeleteBuffers(1, &VBO);
+		//glDeleteBuffers(1, &EBO);
 	}
 
 	virtual GLuint getVAO() override { return VAO; };
 
 	Triangles(const std::vector<GLfloat> vertices,
               const std::vector<GLuint> indices,
-              const Shader *shader,
+              std::shared_ptr<Shader> shader,
               glm::vec3 position)
-			: _vertices(vertices), _indices(indices), _position(position), _shader(shader) { }
+			: _vertices(vertices), _indices(indices), _position(position) { }
 
 	virtual void Setup(GLFWwindow *windowcontext) override {
 		glGenVertexArrays(1, &VAO);
@@ -51,10 +52,6 @@ public:
     {
         return _modelMatrix;
     }
-
-    virtual const Shader *getShader() override {
-		return _shader;
-	}
 
     // This could be confusing, need to have a look at this.
     // It resets rotations to zero if used to change positions.
@@ -92,7 +89,7 @@ public:
 			if (count < 3) x *= factor; else; if (count == 5) count = 0; else ++count;});
 	}
 
-    virtual void setColor(float r, float g, float b) {
+    virtual void setColor(float r, float g, float b) override {
         _color = glm::vec3(r, g, b);
     }
 
@@ -109,7 +106,6 @@ protected:
 	glm::vec3 _position; // Position in world coordinates of all objects.
 	GLfloat _rotation = 0.0f;
     glm::mat4 _modelMatrix;
-	const Shader *_shader;
 
 	glm::vec3 _color; // Color of all triangles.
 

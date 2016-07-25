@@ -9,13 +9,13 @@ public:
 			: v_half_({}), initSet_(false) { }
 
 	virtual void step(
-			const double dt,
-			std::vector<std::unique_ptr<Body>>& bodies,
-			std::vector<std::shared_ptr<Force>> const &forces) override;
+        const double dt,
+        std::vector<std::shared_ptr<Body>> &bodies,
+        std::vector<std::shared_ptr<Force>> const &forces) override;
 
 	void makeInitials(
 			const double dt,
-			std::vector<std::unique_ptr<Body>> const &bodies,
+			std::vector<std::shared_ptr<Body>> const &bodies,
 			std::vector<std::shared_ptr<Force>> const &forces);
 private:
 	std::vector<Vector3<double>> v_half_;

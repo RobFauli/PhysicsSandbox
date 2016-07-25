@@ -50,6 +50,11 @@ void Simulation::addPointParticle(
     m_AllBodies.back()->setVelocity(velocity);
 }
 
+void Simulation::addBody(std::shared_ptr<Body> body)
+{
+    m_AllBodies.push_back(std::move(body));
+}
+
 std::stringstream Simulation::getData() const
 {
     auto data = std::stringstream();

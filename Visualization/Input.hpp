@@ -2,6 +2,7 @@
 #define PHYSICSSANDBOX_INPUT_HPP
 
 #include <functional>
+#include <memory>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -30,7 +31,7 @@ private:
 	static bool _keys[1024];
 	static bool _firstMouse;
 	static Camera* _camera;
-	static GLFWwindow*_GLFWwindow;
+	static std::shared_ptr<GLFWwindow>_GLFWwindow;
 	static float _lastX;
 	static float _lastY;
     static bool _mouseOn;

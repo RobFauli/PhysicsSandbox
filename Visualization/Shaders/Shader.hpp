@@ -15,7 +15,7 @@ public:
 	Shader(const GLchar *vertexPath, const GLchar *geometryPath, const GLchar *fragmentPath);
 
 	void Use() const {
-		glUseProgram(this->_program);
+		glUseProgram(_program);
 	}
 
     auto getProgram() const {

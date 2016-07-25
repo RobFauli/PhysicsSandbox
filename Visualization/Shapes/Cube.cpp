@@ -4,8 +4,7 @@
 
 #include "Cube.hpp"
 
-Cube::Cube(const Shader &shader, GLfloat length, GLfloat width, GLfloat height) {
-    _shader = &shader;
+Cube::Cube(const std::shared_ptr<Shader> shader, GLfloat length, GLfloat width, GLfloat height) {
 
     // The length, width and height is measured along the x, y and z-axis respectively.
     GLfloat xa = -length / 2.0f;

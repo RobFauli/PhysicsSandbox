@@ -1,8 +1,8 @@
 #include "Leapfrog.hpp"
 
 void Leapfrog::step(const double dt,
-                  std::vector<std::unique_ptr<Body>> &bodies,
-                  std::vector<std::shared_ptr<Force>> const &forces)
+                    std::vector<std::shared_ptr<Body>> &bodies,
+                    std::vector<std::shared_ptr<Force>> const &forces)
 {
 	if (initSet_)
 		{ }
@@ -42,7 +42,7 @@ void Leapfrog::step(const double dt,
 }
 
 void Leapfrog::makeInitials(const double dt,
-							const std::vector<std::unique_ptr<Body>> &bodies,
+							const std::vector<std::shared_ptr<Body>> &bodies,
 							const std::vector<std::shared_ptr<Force>> &forces) {
 	std::vector<Vector3<double>> netForces_i(bodies.size());
 	for (auto &F : forces) {

@@ -15,13 +15,18 @@
 #include "Input.hpp"
 #include "Renderer.hpp"
 
-//class Input;
-
 class Window {
 	friend class Input; friend class Camera;
 public:
 	Window(GLuint width, GLuint height, const std::string name, glm::vec4 clearColor);
+    Window() {};
+    void setupWindow(GLuint width, GLuint height, const std::string &name, const glm::vec4 &clearColor);
+
 	bool GameLoop();
+
+    void launchWindow() {
+        glfwShowWindow(_window.get());
+    }
 
 	Renderer& getRenderer() {
 		return _renderer;
@@ -32,21 +37,21 @@ public:
 	}
 
 	bool WindowShouldClose() {
-		return static_cast<bool>(glfwWindowShouldClose(_window));
+		return static_cast<bool>(glfwWindowShouldClose(_window.get()));
 	}
 
 	void CloseWindow() {
-		glfwDestroyWindow(_window);
+		glfwDestroyWindow(_window.get());
 	}
 
-	~Window() {
-		glfwTerminate();
-	}
+    ~Window() {
+        glfwTerminate();
+    }
 
 private:
 	GLuint _width;
 	GLuint _height;
-	GLFWwindow* _window;
+	std::shared_ptr<GLFWwindow> _window;
 	Camera _camera;
 	Input _input;
 	Renderer _renderer;

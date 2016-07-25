@@ -22,7 +22,7 @@ public:
 			const Vector3<double> &BOffset) const = 0;
 
 	std::vector<Vector3<double>> getNetForceStrengths(
-			const std::vector<std::unique_ptr<Body>> &bodies) const;
+			const std::vector<std::shared_ptr<Body>> &bodies) const;
 
 	std::vector<Vector3<double>> getNetForceStrengths(
 			std::vector<std::unique_ptr<Body>> const &bodies,

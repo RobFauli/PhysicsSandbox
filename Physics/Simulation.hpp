@@ -27,6 +27,7 @@ public:
 	void addPointParticle(
 		const double& mass, const double& charge,
 		const Vector3<double>& pos, const Vector3<double>& velocity);
+    void addBody(std::shared_ptr<Body> body);
 	void addForce(std::shared_ptr<Force> &F);
     void changeODESolver(std::unique_ptr<ODESolver> odes) {
         m_evolve = std::move(odes);
@@ -42,7 +43,7 @@ public:
 private:
 	std::vector<std::shared_ptr<Force>> m_forces;
 	PointParticleCreator m_PPC;
-	std::vector<std::unique_ptr<Body>> m_AllBodies;
+	std::vector<std::shared_ptr<Body>> m_AllBodies;
 	std::unique_ptr<ODESolver> m_evolve;
 
 	std::vector<std::vector<Vector3<double>>> m_positionsHistory;

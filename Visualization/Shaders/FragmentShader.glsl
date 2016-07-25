@@ -44,7 +44,10 @@ vec3 calculatePointLight(uint n)
 
 void main() {
     vec3 result = vec3(0.0f);
-    for (uint i = 0u; i < nPointLights; ++i)
-        result += calculatePointLight(i);
+    if (nPointLights != 0)
+        for (uint i = 0u; i < nPointLights; ++i)
+            result += calculatePointLight(i);
+    else
+        result += ambientFactor*fs_in.color;
     color = vec4(result, 1.0f);
 }

@@ -8,22 +8,22 @@
 class Object
 {
 public:
-    Object(const Shader &shader,
+    Object(std::shared_ptr<Shader> &shader,
            double mass, double charge,
            float length, float width, float height); // Cube
-    Object(const Shader &shader,
+    Object(std::shared_ptr<Shader> &shader,
            double mass, double charge,
            float radius); // Sphere
-    Object(std::unique_ptr<Body> pp, std::unique_ptr<Shape> shape)
-        : _physicalProperties(std::move(pp)), _shape(std::move(shape)) { }
+    Object(std::shared_ptr<Body> pp, std::shared_ptr<Shape> shape)
+        : _physicalProperties(pp), _shape(shape) { }
 
-    void changeShape(std::unique_ptr<Shape> shape)
+    void changeShape(std::shared_ptr<Shape> shape)
     {
-        _shape = std::move(shape);
+        _shape = shape;
     }
-    void changePhysicalProperties(std::unique_ptr<Body> pp)
+    void changePhysicalProperties(std::shared_ptr<Body> pp)
     {
-        _physicalProperties = std::move(pp);
+        _physicalProperties = pp;
     }
     void setPosition(double x, double y, double z) {
         _physicalProperties->setPosition(x, y, z);
@@ -39,9 +39,44 @@ public:
         //_physicalProperties->rotate(radians, pivotX, pivotY, pivotZ);
         _shape->rotate(radians, pivotX, pivotY, pivotZ);
     }
+
+    auto getMass() const {
+        return _physicalProperties->getMass();
+    }
+    auto getCharge() const
+    {
+        return _physicalProperties->getCharge();
+    }
+    auto getPosition() const {
+        return _physicalProperties->getPosition();
+    }
+    auto getVelocity() const {
+        return _physicalProperties->getVelocity();
+    }
+
+    std::shared_ptr<Body> const &getBody() const {
+        return _physicalProperties;
+    }
+    std::shared_ptr<Shape> const &getShape() const {
+        return _shape;
+    }
+
+    void updateShapePosition() {
+        auto pos = _physicalProperties->getPosition();
+        _shape->setPosition(static_cast<GLfloat>(pos.x), static_cast<GLfloat>(pos.y),
+                            static_cast<GLfloat>(pos.z));
+    }
+
+    void setColor(GLfloat r, GLfloat g, GLfloat b) {
+        _shape->setColor(r, g, b);
+    }
+    auto getColor() {
+        return _shape->getColor();
+    }
+
 private:
-    std::unique_ptr<Body> _physicalProperties;
-    std::unique_ptr<Shape> _shape;
+    std::shared_ptr<Body> _physicalProperties;
+    std::shared_ptr<Shape> _shape;
 };
 
 

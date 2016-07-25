@@ -13,6 +13,7 @@
 
 #include <Shaders/Shader.hpp>
 #include <glm/detail/type_mat.hpp>
+#include <memory>
 
 class Shape {
 public:
@@ -22,8 +23,8 @@ public:
 	virtual const glm::vec3 &getPosition() = 0;
 	virtual const GLfloat &getRotation() = 0;
     virtual const glm::mat4 &getModelMatrix() = 0;
-	virtual const Shader * getShader() = 0;
     virtual const glm::vec3 &getColor() = 0;
+    virtual void setColor(GLfloat r, GLfloat g, GLfloat b) = 0;
 
     virtual void setPosition(const GLfloat x, const GLfloat y, const GLfloat z) = 0;
     virtual void move(const GLfloat dx, const GLfloat dy, const GLfloat dz) = 0;

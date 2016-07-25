@@ -9,7 +9,7 @@ bool Input::_keys[1024];
 bool Input::_firstMouse = true;
 bool Input::_mouseOn = true;
 Camera *Input::_camera = nullptr;
-GLFWwindow *Input::_GLFWwindow = nullptr;
+std::shared_ptr<GLFWwindow> Input::_GLFWwindow = nullptr;
 float Input::_lastX = 0;
 float Input::_lastY = 0;
 void Input::key_callback(GLFWwindow *window, int key, int scancode, int action,
@@ -46,9 +46,9 @@ void Input::do_movement()
 		_camera->Up = glm::rotate(_camera->Up, -cameraRotSpeed, _camera->Front);
     if(_keys[GLFW_KEY_TAB]) {
         if (!_mouseOn)
-            glfwSetInputMode(_GLFWwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            glfwSetInputMode(_GLFWwindow.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         else {
-            glfwSetInputMode(_GLFWwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            glfwSetInputMode(_GLFWwindow.get(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             _firstMouse = true;
         }
         _mouseOn = !_mouseOn;
@@ -80,9 +80,9 @@ void Input::mouse_callback(GLFWwindow *window, double xpos, double ypos) {
 }
 
 void Input::SetCallbacks() {
-	glfwSetKeyCallback(_GLFWwindow, key_callback);
-	glfwSetCursorPosCallback(_GLFWwindow, mouse_callback);
-	glfwSetScrollCallback(_GLFWwindow, scroll_callback);
+	glfwSetKeyCallback(_GLFWwindow.get(), key_callback);
+	glfwSetCursorPosCallback(_GLFWwindow.get(), mouse_callback);
+	glfwSetScrollCallback(_GLFWwindow.get(), scroll_callback);
 }
 
 void Input::SetupInputs(Window *window) {

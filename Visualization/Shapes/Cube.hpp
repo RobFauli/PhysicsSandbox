@@ -2,11 +2,12 @@
 #define PHYSICSSANDBOX_CUBE_HPP
 
 
+#include <memory>
 #include "Triangles.hpp"
 
 class Cube : public Triangles {
 public:
-    Cube(const Shader &shader, GLfloat length, GLfloat width, GLfloat height);
+    Cube(const std::shared_ptr<Shader> shader, GLfloat length, GLfloat width, GLfloat height);
 
 };
 
