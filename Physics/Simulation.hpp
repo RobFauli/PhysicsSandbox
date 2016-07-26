@@ -40,6 +40,10 @@ public:
 
 	std::stringstream getData() const;
 
+    void removeAllBodies() {
+        m_AllBodies.clear();
+    }
+
 private:
 	std::vector<std::shared_ptr<Force>> m_forces;
 	PointParticleCreator m_PPC;

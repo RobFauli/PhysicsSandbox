@@ -10,7 +10,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
         )
 
 set(Library_FILES
-        CPP/Object.cpp CPP/QViPhyManager.cpp app.cpp)
+        CPP/Object.cpp CPP/QViPhyManager.cpp)
 qt5_add_resources(RESOURCES QML/app.qrc)
 
 add_library(viphy ${Library_FILES} ${RESOURCES})

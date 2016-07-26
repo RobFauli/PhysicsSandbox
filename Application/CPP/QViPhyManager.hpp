@@ -9,13 +9,9 @@
 #include <Simulation.hpp>
 #include <Window.hpp>
 #include <EquationSolvers/DifferentialEquations/Ordinary/Leapfrog.hpp>
+#include <QtQml/QtQml>
 #include "Object.hpp"
 
-enum class ForceEnum { GRAVITY, COULOMB };
-enum class TimeUnitEnum { SECONDS, YEARS };
-enum class LengthUnitEnum { NANO_METERS, CENTI_METERS, METERS, KILO_METERS, LIGHT_YEARS };
-
-enum class ODESolverEnum { EULER, LEAPFROG };
 
 
 
@@ -26,17 +22,25 @@ class QViPhyManager : public QObject
 {
     Q_OBJECT
 
+public:
+    enum class ForceEnum { GRAVITY, COULOMB };
+    enum class TimeUnitEnum { SECONDS, YEARS };
+    enum class LengthUnitEnum { NANO_METERS, CENTI_METERS, METERS, KILO_METERS, LIGHT_YEARS };
+    enum class ODESolverEnum { EULER, LEAPFROG };
+
     Q_ENUM(ForceEnum)
     Q_ENUM(TimeUnitEnum)
     Q_ENUM(LengthUnitEnum)
     Q_ENUM(ODESolverEnum)
 
-public:
     //QViPhyManager() { }
+    static void registerEnumsQML() {
+        qmlRegisterType<QViPhyManager>("Enums", 1, 0, "ForceEnum");
+    }
 
     Q_INVOKABLE void startSimulating();
     Q_INVOKABLE void startRendering();
-    Q_INVOKABLE void startLiveRendering();
+    Q_INVOKABLE void startLiveRendering(QString monitorName = NULL);
 
     Q_INVOKABLE QList<QString> getObjectNames();
     Q_INVOKABLE QVariantMap getObjectMasses();
@@ -75,6 +79,8 @@ private:
     std::string _geometryPath = "../../Visualization/Shaders/GeometryShader.glsl";
     std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
     std::shared_ptr<Shader> _shader;
+    void loadRenderer();
+    void loadSimulation() const;
 };
 
 

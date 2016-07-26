@@ -8,11 +8,11 @@ void QViPhyManager::startRendering()
 {
     setupWindow();
 }
-void QViPhyManager::startLiveRendering()
+void QViPhyManager::startLiveRendering(QString monitorName)
 {
     setupSimulation();
     setupWindow();
-    _window.launchWindow();
+    _window.ShowWindow(monitorName.toStdString());
     while (!_window.WindowShouldClose()) {
         _simulation->runOneTimeStep();
         for (auto &object : _objects) {
@@ -21,6 +21,7 @@ void QViPhyManager::startLiveRendering()
         _window.GameLoop();
         usleep(_sleep);
     }
+    _window.HideWindow();
 }
 QList<QString> QViPhyManager::getObjectNames()
 {
@@ -127,15 +128,24 @@ void QViPhyManager::setupSimulation()
             _simulation->changeODESolver(std::make_unique<Euler>(Euler()));
     }
 
+    loadSimulation();
+}
+void QViPhyManager::loadSimulation() const
+{
+    _simulation->removeAllBodies();
     for (const auto &object : _objects) {
         _simulation->addBody(object.getBody());
     }
 }
 void QViPhyManager::setupWindow()
 {
+    _window = Window();
     _window.setupWindow(_windowWidth, _windowHeight, _windowTitle, _backgroundColor);
-    _shader = std::make_shared<Shader>(
-        Shader(_vertexPath.c_str(), _geometryPath.c_str(), _fragmentPath.c_str()));
+    loadRenderer();
+}
+void QViPhyManager::loadRenderer()
+{
+    _window.getRenderer().removeAllObjects();
     for (auto &object : _objects) {
         _window.getRenderer().addObject(object.getShape());
     }

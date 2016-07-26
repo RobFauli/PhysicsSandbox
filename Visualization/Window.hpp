@@ -24,8 +24,30 @@ public:
 
 	bool GameLoop();
 
-    void launchWindow() {
+    void ShowWindow() {
         glfwShowWindow(_window.get());
+    }
+    void ShowWindow(const int x, const int y) {
+        glfwSetWindowPos(_window.get(), x, y);
+        glfwShowWindow(_window.get());
+    }
+    void ShowWindow(GLFWmonitor *monitor) {
+        int x, y;
+        glfwGetMonitorPos(monitor, &x, &y);
+        ShowWindow(x, y);
+    }
+    void ShowWindow(std::string name) {
+        int n;
+        auto allMonitors = glfwGetMonitors(&n);
+        for (auto i = 0; i<n; ++i) {
+            if (name == glfwGetMonitorName(allMonitors[i])) {
+                ShowWindow(allMonitors[i]);
+                return;
+            }
+            else
+            {}
+        }
+        ShowWindow(glfwGetPrimaryMonitor());
     }
 
 	Renderer& getRenderer() {
@@ -36,17 +58,18 @@ public:
 		return _camera;
 	}
 
+    std::shared_ptr<GLFWwindow> getGLFWwindow() {
+        return _window;
+    }
+
 	bool WindowShouldClose() {
 		return static_cast<bool>(glfwWindowShouldClose(_window.get()));
 	}
 
-	void CloseWindow() {
-		glfwDestroyWindow(_window.get());
+	void HideWindow() {
+        glfwHideWindow(_window.get());
 	}
 
-    ~Window() {
-        glfwTerminate();
-    }
 
 private:
 	GLuint _width;

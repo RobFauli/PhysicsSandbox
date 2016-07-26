@@ -46,6 +46,10 @@ public:
         _ambientLightFactor = factor;
     }
 
+    void removeAllObjects() {
+        _objects.clear();
+    }
+
 private:
 	std::vector<std::shared_ptr<Shape>> _objects;
     std::string _vertexPath = "../../Visualization/Shaders/VertexShader.glsl";
