@@ -7,3 +7,4 @@ bin/*
 *cmake_install.cmake
 *Makefile
 main.cpp
+CMakeLists.txt.user
