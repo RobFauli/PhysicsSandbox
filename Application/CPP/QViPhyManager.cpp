@@ -137,7 +137,6 @@ void QViPhyManager::setupWindow()
     _shader = std::make_shared<Shader>(
         Shader(_vertexPath.c_str(), _geometryPath.c_str(), _fragmentPath.c_str()));
     for (auto &object : _objects) {
-        std::cout << object.getShape()->getColor().x << std::endl;
         _window.getRenderer().addObject(object.getShape());
     }
 }
