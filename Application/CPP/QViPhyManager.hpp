@@ -51,15 +51,27 @@ public:
                                    qreal x, qreal y, qreal z);
     Q_INVOKABLE void removeObject(QString keyname);
 
+    Q_INVOKABLE void setObjectVelocity(QString keyname, qreal vx, qreal vy, qreal vz);
+
     Q_INVOKABLE void addForce(ForceEnum force);
     Q_INVOKABLE void removeForce(ForceEnum force);
 
     Q_INVOKABLE void changeTimeUnitsTo(TimeUnitEnum timeUnit);
     Q_INVOKABLE void changeLengthUnitsTo(LengthUnitEnum lengthUnit);
 
+    Q_INVOKABLE void setLightPosition(qreal x, qreal y, qreal z)
+    {
+        if (!_light)
+            _light = true;
+        _lightPos = glm::vec3(x, y, z);
+    }
+
 private:
     void setupSimulation();
     void setupWindow();
+
+    bool _light = false;
+    glm::vec3 _lightPos;
 
     std::unique_ptr<Simulation> _simulation = std::make_unique<Simulation>(Simulation());
     Window _window;
@@ -71,7 +83,7 @@ private:
     unsigned int _windowWidth = 800;
     std::string _windowTitle = "Default title";
     glm::vec4 _backgroundColor = glm::vec4(0.f, 0.f, 0.f, 1.f);
-    qreal _sleep = 1e4;
+    qreal _sleep = 1e1;
 
     ODESolverEnum _odeSolverEnum = ODESolverEnum::LEAPFROG;
 

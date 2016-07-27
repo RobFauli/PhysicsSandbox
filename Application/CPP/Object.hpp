@@ -29,6 +29,9 @@ public:
         _physicalProperties->setPosition(x, y, z);
         _shape->setPosition(x, y, z);
     }
+    void setVelocity(double vx, double vy, double vz) {
+        _physicalProperties->setVelocity(Vector3<double>(vx, vy, vz));
+    }
     void move(double dx, double dy, double dz) {
         _physicalProperties->move(dx, dy, dz);
         _shape->move(dx, dy, dz);

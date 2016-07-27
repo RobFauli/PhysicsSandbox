@@ -34,7 +34,7 @@ public:
 		object->Setup(_window.get());
 		_objects.push_back(object);
 	}
-    void addLightSource(LightSource* lightSource) {
+    void addLightSource(std::shared_ptr<LightSource> lightSource) {
         _pointLightSources.push_back(lightSource);
         _depthCubemaps.push_back(0);
         setupDepthShaderSettings();
@@ -56,7 +56,7 @@ private:
     std::string _geometryPath = "../../Visualization/Shaders/GeometryShader.glsl";
     std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
     Shader _shader;
-    std::vector<LightSource*> _pointLightSources;
+    std::vector<std::shared_ptr<LightSource>> _pointLightSources;
 	std::shared_ptr<GLFWwindow> _window;
 	glm::vec4 _clearColor;
 

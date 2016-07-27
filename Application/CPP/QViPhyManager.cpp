@@ -14,12 +14,13 @@ void QViPhyManager::startLiveRendering(QString monitorName)
     setupWindow();
     _window.ShowWindow(monitorName.toStdString());
     while (!_window.WindowShouldClose()) {
-        _simulation->runOneTimeStep();
+        //_simulation->runOneTimeStep();
+        _simulation->runNSteps(10);
         for (auto &object : _objects) {
             object.updateShapePosition();
         }
         _window.GameLoop();
-        usleep(_sleep);
+        //usleep(_sleep);
     }
     _window.HideWindow();
 }
@@ -67,14 +68,14 @@ void QViPhyManager::addForce(ForceEnum forceEnum)
     switch(forceEnum) {
         case ForceEnum::GRAVITY: {
             auto GForce = std::make_shared<GravitationalForce>(GravitationalForce());
-            GForce->setSoftener(0.15 * 0.15);
+            GForce->setSoftener(0.05 * 0.05);
             force = GForce;
             _simulation->addForce(force);
             break;
         }
         case ForceEnum::COULOMB: {
             auto CForce = std::make_shared<ColoumbForce>(ColoumbForce());
-            CForce->setSoftener(0.15 * 0.15);
+            CForce->setSoftener(0.05 * 0.05);
             force = CForce;
             _simulation->addForce(force);
             break;
@@ -149,5 +150,13 @@ void QViPhyManager::loadRenderer()
     for (auto &object : _objects) {
         _window.getRenderer().addObject(object.getShape());
     }
+    if (_light) {
+        auto ls = std::make_shared<LightSource>(LightSource(_lightPos));
+        _window.getRenderer().addLightSource(ls);
+    }
+}
+void QViPhyManager::setObjectVelocity(QString keyname, qreal vx, qreal vy, qreal vz)
+{
+    _objects.find(keyname)->setVelocity(vx, vy, vz);
 }
 
