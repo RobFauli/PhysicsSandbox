@@ -6,23 +6,13 @@ void QViPhyManager::startSimulating()
 }
 void QViPhyManager::startRendering()
 {
-    setupWindow();
 }
-void QViPhyManager::startLiveRendering(QString monitorName)
+void QViPhyManager::startLiveRendering()
 {
-    setupSimulation();
-    setupWindow();
-    _window.ShowWindow(monitorName.toStdString());
-    while (!_window.WindowShouldClose()) {
-        //_simulation->runOneTimeStep();
-        _simulation->runNSteps(10);
+    _simulation->runNSteps(10);
         for (auto &object : _objects) {
             object.updateShapePosition();
-        }
-        _window.GameLoop();
-        //usleep(_sleep);
     }
-    _window.HideWindow();
 }
 QList<QString> QViPhyManager::getObjectNames()
 {
@@ -138,21 +128,11 @@ void QViPhyManager::loadSimulation() const
         _simulation->addBody(object.getBody());
     }
 }
-void QViPhyManager::setupWindow()
-{
-    _window = Window();
-    _window.setupWindow(_windowWidth, _windowHeight, _windowTitle, _backgroundColor);
-    loadRenderer();
-}
 void QViPhyManager::loadRenderer()
 {
-    _window.getRenderer().removeAllObjects();
+    _renderer->removeAllObjects();
     for (auto &object : _objects) {
-        _window.getRenderer().addObject(object.getShape());
-    }
-    if (_light) {
-        auto ls = std::make_shared<LightSource>(LightSource(_lightPos));
-        _window.getRenderer().addLightSource(ls);
+        _renderer->addObject(object.getShape());
     }
 }
 void QViPhyManager::setObjectVelocity(QString keyname, qreal vx, qreal vy, qreal vz)

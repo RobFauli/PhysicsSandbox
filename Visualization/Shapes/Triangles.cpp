@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Triangles.hpp"
 
-void Triangles::Setup()
+void Triangles::subSetup()
 {
 
 

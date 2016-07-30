@@ -33,14 +33,13 @@ public:
     Q_ENUM(LengthUnitEnum)
     Q_ENUM(ODESolverEnum)
 
-    //QViPhyManager() { }
     static void registerEnumsQML() {
         qmlRegisterType<QViPhyManager>("Enums", 1, 0, "ForceEnum");
     }
 
     Q_INVOKABLE void startSimulating();
     Q_INVOKABLE void startRendering();
-    Q_INVOKABLE void startLiveRendering(QString monitorName = NULL);
+    Q_INVOKABLE void startLiveRendering();
 
     Q_INVOKABLE QList<QString> getObjectNames();
     Q_INVOKABLE QVariantMap getObjectMasses();
@@ -59,31 +58,21 @@ public:
     Q_INVOKABLE void changeTimeUnitsTo(TimeUnitEnum timeUnit);
     Q_INVOKABLE void changeLengthUnitsTo(LengthUnitEnum lengthUnit);
 
-    Q_INVOKABLE void setLightPosition(qreal x, qreal y, qreal z)
+    void setRenderer(std::shared_ptr<Renderer> renderer)
     {
-        if (!_light)
-            _light = true;
-        _lightPos = glm::vec3(x, y, z);
+        _renderer = renderer;
     }
+    void loadRenderer();
 
 private:
     void setupSimulation();
-    void setupWindow();
-
-    bool _light = false;
-    glm::vec3 _lightPos;
 
     std::unique_ptr<Simulation> _simulation = std::make_unique<Simulation>(Simulation());
-    Window _window;
+    std::shared_ptr<Renderer> _renderer;
     QMap<QString, Object> _objects;
 
     // Settings variables
     bool _preSimulated;
-    unsigned int _windowHeight = 600;
-    unsigned int _windowWidth = 800;
-    std::string _windowTitle = "Default title";
-    glm::vec4 _backgroundColor = glm::vec4(0.f, 0.f, 0.f, 1.f);
-    qreal _sleep = 1e1;
 
     ODESolverEnum _odeSolverEnum = ODESolverEnum::LEAPFROG;
 
@@ -91,7 +80,6 @@ private:
     std::string _geometryPath = "../../Visualization/Shaders/GeometryShader.glsl";
     std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
     std::shared_ptr<Shader> _shader;
-    void loadRenderer();
     void loadSimulation() const;
 };
 

@@ -8,7 +8,6 @@
 #include <vector>
 
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <glm/vec3.hpp>
 
 #include <Shaders/Shader.hpp>
@@ -17,7 +16,8 @@
 
 class Shape {
 public:
-	virtual void Setup(GLFWwindow *) = 0;
+	//virtual void Setup(GLFWwindow *) = 0;
+    virtual void Setup() = 0;
 	virtual GLuint getVAO() = 0;
 	virtual void Draw(GLint modelLoc) = 0;
 	virtual const glm::vec3 &getPosition() = 0;

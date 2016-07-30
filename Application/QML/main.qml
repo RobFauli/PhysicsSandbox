@@ -7,12 +7,13 @@ import QtQuick.Window 2.2
 //mngr.addObject("moon", 1.0, 0, 0.3, 0, 2.0, 0);
 //mngr.startLiveRendering();
 
-Window {
-    id: window
-    visible: true
-    width: 360
-    height: 360
-    color: "darkgrey"
+Rectangle {
+    id: root
+    width: 800
+    height: 600
+    //color: "darkgrey"
+    color: "transparent"
+    property int i: 0
     Rectangle {
         width: 120
         height: 120
@@ -22,18 +23,17 @@ Window {
         radius: 16
         Text {
             anchors.centerIn: parent
-            text: "Start simulation"
+            text: "Start simulation: " + root.i
         }
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                mngr.addForce(ForceEnum.GRAVITY)
-                mngr.addObject("sol", 1e5, 0, 0.5, 0, 0, 0);
-                mngr.addObject("moon", 1.0, 0, 0.3, 0, 1.0, 0);
-                mngr.setObjectVelocity("moon", 0.003, 0, 0);
-                mngr.setLightPosition(10, 0, 0);
-                mngr.startLiveRendering(Screen.name);
-                //Qt.quit();
+                //mngr.addForce(ForceEnum.GRAVITY)
+                //mngr.addObject("sol", 1e5, 0, 0.5, 0, 0, 0);
+                //mngr.addObject("moon", 1.0, 0, 0.3, 0, 1.0, 0);
+                mngr.addObject("3", 1.0, 0, 2.0, 0.0, 0, -6);
+                //mngr.setObjectVelocity("moon", 0.003, 0, 0);
+                root.i += 1
             }
         }
 

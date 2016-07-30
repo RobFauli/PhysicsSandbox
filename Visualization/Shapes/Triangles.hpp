@@ -5,7 +5,6 @@
 #include <vector>
 
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <glm/vec3.hpp>
 #include <algorithm>
 #include <Tools/TransformationMatrices.hpp>
@@ -30,13 +29,13 @@ public:
               glm::vec3 position)
 			: _vertices(vertices), _indices(indices), _position(position) { }
 
-	virtual void Setup(GLFWwindow *windowcontext) override {
+	virtual void Setup() override {
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 		glGenBuffers(1, &EBO);
-		Setup();
+        subSetup();
 	}
-	void Setup();
+	void subSetup();
 
 	virtual void Draw(GLint modelLoc) override;
 

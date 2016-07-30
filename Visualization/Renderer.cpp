@@ -1,13 +1,10 @@
 #include "Renderer.hpp"
 
-void Renderer::draw(unsigned int width,
-                   unsigned int height,
-                   const glm::mat4 &view,
-                   const GLfloat fov)
+void Renderer::draw()
 {
     if (_depthShader) {
         drawDepthCubemaps();
-        glViewport(0, 0, width, height);
+        glViewport(0, 0, _width, _height);
     }
 
     glClearColor(_clearColor.x, _clearColor.y, _clearColor.z, _clearColor.w);
@@ -15,8 +12,8 @@ void Renderer::draw(unsigned int width,
 
     // Projection:
     glm::mat4 projection;
-    projection = glm::perspective(glm::radians(fov), static_cast<float>(width)
-                                      / static_cast<float>(height),
+    projection = glm::perspective(glm::radians(_fov), static_cast<float>(_width)
+                                      / static_cast<float>(_height),
                                   _near, _far);
 
 
@@ -40,7 +37,7 @@ void Renderer::draw(unsigned int width,
         }
         glUniform1ui(glGetUniformLocation(program, "nPointLights"), i);
 
-        drawObject(view, projection, object);
+        drawObject(_view, projection, object);
     }
 }
 
