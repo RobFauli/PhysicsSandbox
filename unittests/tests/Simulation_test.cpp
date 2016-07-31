@@ -1,7 +1,7 @@
 #include <EquationSolvers/DifferentialEquations/Ordinary/Leapfrog.hpp>
 #include <random>
 #include <math.h>
-#include <gd.h>
+//#include <gd.h>
 #include "gtest/gtest.h"
 #include "Simulation.hpp"
 

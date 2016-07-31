@@ -28,6 +28,7 @@ public:
     {
         glGenFramebuffers(1, &_depthMapFBO);
     }
+    void initialize();
 	void draw(unsigned int width, unsigned int height, const glm::mat4 &view, const GLfloat fov)
     {
         _width = width; _height = height; _view = view; _fov = fov;
@@ -51,7 +52,7 @@ public:
         _ambientLightFactor = factor;
     }
 
-    void removeAllObjects() {
+    void removeAllShapes() {
         _objects.clear();
     }
 
@@ -91,7 +92,6 @@ private:
     std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
     Shader _shader;
     std::vector<std::shared_ptr<LightSource>> _pointLightSources;
-	//std::shared_ptr<GLFWwindow> _window;
     glm::vec4 _clearColor;
 
     // Shadow rendering settings:

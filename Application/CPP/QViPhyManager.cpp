@@ -40,13 +40,13 @@ void QViPhyManager::addObject(QString keyname,
                               qreal mass, qreal charge, qreal radius,
                               qreal x, qreal y, qreal z)
 {
-    _objects.insert(
+    _newObjects.insert(
         keyname,
         Object(
             _shader, mass, charge, radius)
     );
-    _objects.find(keyname).value().setPosition(x, y, z);
-    _objects.find(keyname).value().setColor(1.0f, 0.0f, 0.0f);
+    _newObjects.find(keyname).value().setPosition(x, y, z);
+    _newObjects.find(keyname).value().setColor(1.0f, 0.0f, 0.0f);
 }
 void QViPhyManager::removeObject(QString keyname)
 {
@@ -121,22 +121,34 @@ void QViPhyManager::setupSimulation()
 
     loadSimulation();
 }
-void QViPhyManager::loadSimulation() const
+void QViPhyManager::loadSimulation()
 {
-    _simulation->removeAllBodies();
-    for (const auto &object : _objects) {
+    for (const auto &object : _newObjects) {
         _simulation->addBody(object.getBody());
     }
 }
 void QViPhyManager::loadRenderer()
 {
-    _renderer->removeAllObjects();
-    for (auto &object : _objects) {
+    for (auto &object : _newObjects) {
         _renderer->addObject(object.getShape());
     }
 }
+void QViPhyManager::updateObjects()
+{
+    loadSimulation();
+    loadRenderer();
+    _objects.unite(_newObjects);
+    _newObjects.clear();
+    if (_objects.size() != 0)
+        _objects.find("turn")->rotate(0.13, 1, 0, 0);
+}
 void QViPhyManager::setObjectVelocity(QString keyname, qreal vx, qreal vy, qreal vz)
 {
-    _objects.find(keyname)->setVelocity(vx, vy, vz);
+    _newObjects.find(keyname)->setVelocity(vx, vy, vz);
+}
+void QViPhyManager::removeAllObjects()
+{
+    _simulation->removeAllBodies();
+    _renderer->removeAllShapes();
 }
 

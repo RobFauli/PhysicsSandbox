@@ -62,14 +62,16 @@ public:
     {
         _renderer = renderer;
     }
-    void loadRenderer();
 
+    void updateObjects();
+    void removeAllObjects();
 private:
     void setupSimulation();
 
     std::unique_ptr<Simulation> _simulation = std::make_unique<Simulation>(Simulation());
     std::shared_ptr<Renderer> _renderer;
     QMap<QString, Object> _objects;
+    QMap<QString, Object> _newObjects;
 
     // Settings variables
     bool _preSimulated;
@@ -80,7 +82,8 @@ private:
     std::string _geometryPath = "../../Visualization/Shaders/GeometryShader.glsl";
     std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
     std::shared_ptr<Shader> _shader;
-    void loadSimulation() const;
+    void loadSimulation();
+    void loadRenderer();
 };
 
 

@@ -149,4 +149,13 @@ std::vector<glm::mat4>
             lightPos, lightPos + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
     return shadowTransforms;
 }
+void Renderer::initialize()
+{
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK) {
+        std::cerr << "Failed to initialize GLEW." << std::endl;
+        exit(-1);
+    }
+    glEnable(GL_DEPTH_TEST);
+}
 

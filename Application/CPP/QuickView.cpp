@@ -4,19 +4,6 @@ QuickView::QuickView(QWindow *parent)
     : QQuickView(parent),
       _camera(Camera())
 {
-    //QSurfaceFormat format;
-    /*
-    format.setMajorVersion(4);
-    format.setMinorVersion(2);
-    format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setDepthBufferSize(24);
-    format.setStencilBufferSize(8);
-    format.setSamples(4);
-    setFormat(format);
-    */
-    //format.setDefaultFormat(format);
-    //setFormat(format);
-
     connect(this, &QQuickWindow::sceneGraphInitialized,
             this, &QuickView::initializeUnderlay,
             Qt::DirectConnection);
@@ -47,29 +34,22 @@ void QuickView::synchronizeUnderlay()
     _renderer->setView(_camera.GetViewMatrix());
     _renderer->setHeigh(height());
     _renderer->setWidth(width());
-    _mngr.loadRenderer();
-    resetOpenGLState();
+    _mngr.updateObjects();
 }
 void QuickView::initializeUnderlay()
 {
-    glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK) {
-        std::cerr << "Failed to initialize GLEW." << std::endl;
-        exit(-1);
-    }
-    glEnable(GL_DEPTH_TEST);
-    _renderer = std::make_shared<Renderer>(Renderer(glm::vec4(0, 0, 0, 1)));
-    _renderer->setFOV(_camera.Zoom);
-    _renderer->setView(_camera.GetViewMatrix());
-    _renderer->setHeigh(height());
-    _renderer->setWidth(width());
-    auto ls = std::make_shared<LightSource>(LightSource(glm::vec3(20, 0, 6)));
-    _renderer->addLightSource(ls);
+    QSurfaceFormat format;
+    format.setMajorVersion(3);
+    format.setMinorVersion(3);
+    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setDepthBufferSize(24);
+    format.setStencilBufferSize(8);
+    setFormat(format);
+
+    _renderer->initialize();
     _mngr.setRenderer(_renderer);
-    resetOpenGLState();
 }
 void QuickView::renderUnderlay()
 {
     _renderer->draw();
-    resetOpenGLState();
 }
