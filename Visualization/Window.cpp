@@ -44,7 +44,7 @@ void Window::setupWindow(GLuint width,
 
     // Temp:
     _camera = Camera(glm::vec3(0.0f, 0.0f, 3.0f));
-    _renderer = Renderer(clearColor);
+    _renderer = Renderer();
 }
 
 bool Window::GameLoop() {

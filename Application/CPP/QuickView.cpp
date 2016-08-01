@@ -2,7 +2,8 @@
 
 QuickView::QuickView(QWindow *parent)
     : QQuickView(parent),
-      _camera(Camera())
+      _camera(Camera()),
+      _renderer(std::make_shared<Renderer>(Renderer()))
 {
     connect(this, &QQuickWindow::sceneGraphInitialized,
             this, &QuickView::initializeUnderlay,

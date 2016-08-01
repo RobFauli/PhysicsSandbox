@@ -139,8 +139,6 @@ void QViPhyManager::updateObjects()
     loadRenderer();
     _objects.unite(_newObjects);
     _newObjects.clear();
-    if (_objects.size() != 0)
-        _objects.find("turn")->rotate(0.13, 1, 0, 0);
 }
 void QViPhyManager::setObjectVelocity(QString keyname, qreal vx, qreal vy, qreal vz)
 {

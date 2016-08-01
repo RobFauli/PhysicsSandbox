@@ -16,19 +16,8 @@
 
 class Renderer {
 public:
-	Renderer() { };
-	Renderer(
-        glm::vec4 clearColor)
-        : _shader(Shader(_vertexPath.c_str(), _geometryPath.c_str(), _fragmentPath.c_str())),
-          _clearColor(clearColor),
-          _depthShader(std::make_shared<Shader>(
-              Shader("../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirVertexShader.glsl",
-    "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirGeometryShader.glsl",
-    "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirFragmentShader.glsl")))
-    {
-        glGenFramebuffers(1, &_depthMapFBO);
-    }
-    void initialize();
+	Renderer() : _clearColor(glm::vec4(0.f, 0.f, 0.f, 1.f)) {}
+    void initialize(); //! Requires and active OpenGL context.
 	void draw(unsigned int width, unsigned int height, const glm::mat4 &view, const GLfloat fov)
     {
         _width = width; _height = height; _view = view; _fov = fov;
@@ -75,6 +64,14 @@ public:
     void setClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat w)
     {
         _clearColor = glm::vec4(r, g, b, w);
+    }
+    void setNear(GLfloat near)
+    {
+        _near = near;
+    }
+    void setFar(GLfloat far)
+    {
+        _far = far;
     }
 
 
