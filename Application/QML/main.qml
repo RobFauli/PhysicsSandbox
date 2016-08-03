@@ -2,6 +2,7 @@ import Enums 1.0
 import QtQuick 2.7
 import QtQuick.Controls 1.5
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Layouts 1.3
 
 //mngr.addForce(ForceEnum.GRAVITY)
 //mngr.addObject("sol", 1e5, 0, 1.0, 0, 0, 0);
@@ -29,15 +30,73 @@ Rectangle {
         anchors.horizontalCenter: toolbar.horizontalCenter
         width: toolbar.width/1.2
         z: -1
+        RowLayout {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
         Input {
             id: nameInput
-            width: 50
+            Layout.minimumWidth: 100
+            Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
             text: "Name"
         }
+        Input {
+            id: massInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "m"
+        }
+        Input {
+            id: chargeInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "q"
+        }
+        Input {
+            id: xInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "x"
+        }
+        Input {
+            id: yInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "y"
+        }
+        Input {
+            id: zInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "z"
+        }
+        Input {
+            id: vxInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "vx"
+        }
+        Input {
+            id: vyInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "vy"
+        }
+        Input {
+            id: vzInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "vz"
+        }
         Button {
-            anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             text: "Add"
             onClicked: {
@@ -45,6 +104,7 @@ Rectangle {
                 mngr.addObject("sol", 1e5, 0, 1.0, 0, 0, -6);
                 mngr.addObject("moon", 1.0, 0, 0.3, 0, 2.0, -6);
             }
+        }
         }
     }
 }
