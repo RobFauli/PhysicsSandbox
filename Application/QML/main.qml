@@ -13,6 +13,16 @@ Rectangle {
     width: 800
     height: 600
     color: "transparent"
+    Timer {
+        id: timer
+        interval: 100
+        repeat: true
+        running: true
+        property real secs: 0
+        onTriggered: {
+            secs += 0.001*interval
+        }
+    }
     ToolBar {
         id: toolbar
         anchors.bottom: parent.bottom
@@ -23,6 +33,10 @@ Rectangle {
             }
         }
         Text {
+            id: clock
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            text: timer.secs
         }
     }
     ToolBar {
@@ -35,6 +49,7 @@ Rectangle {
             anchors.fill: parent
         Input {
             id: nameInput
+            KeyNavigation.tab: massInput
             Layout.minimumWidth: 100
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -42,6 +57,7 @@ Rectangle {
         }
         Input {
             id: massInput
+            KeyNavigation.tab: chargeInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -49,13 +65,23 @@ Rectangle {
         }
         Input {
             id: chargeInput
+            KeyNavigation.tab: radiusInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
             text: "q"
         }
         Input {
+            id: radiusInput
+            KeyNavigation.tab: xInput
+            Layout.minimumWidth: 20
+            Layout.fillHeight: true
+            anchors.verticalCenter: parent.verticalCenter
+            text: "r"
+        }
+        Input {
             id: xInput
+            KeyNavigation.tab: yInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -63,6 +89,7 @@ Rectangle {
         }
         Input {
             id: yInput
+            KeyNavigation.tab: zInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -70,6 +97,7 @@ Rectangle {
         }
         Input {
             id: zInput
+            KeyNavigation.tab: vxInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -77,6 +105,7 @@ Rectangle {
         }
         Input {
             id: vxInput
+            KeyNavigation.tab: vyInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -84,6 +113,7 @@ Rectangle {
         }
         Input {
             id: vyInput
+            KeyNavigation.tab: vzInput
             Layout.minimumWidth: 20
             Layout.fillHeight: true
             anchors.verticalCenter: parent.verticalCenter
@@ -98,13 +128,20 @@ Rectangle {
         }
         Button {
             anchors.verticalCenter: parent.verticalCenter
+            text: "Preview"
+            onClicked: {
+                // Add to visualization temporarily.
+            }
+        }
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
             text: "Add"
             onClicked: {
-                mngr.addForce(ForceEnum.GRAVITY);
-                mngr.addObject("sol", 1e5, 0, 1.0, 0, 0, -6);
-                mngr.addObject("moon", 1.0, 0, 0.3, 0, 2.0, -6);
+                mngr.addObject(nameInput.text, massInput.text, chargeInput.text, radiusInput.text,
+                xInput.text, yInput.text, zInput.text);
             }
         }
         }
     }
+
 }

@@ -12,6 +12,7 @@ FocusScope {
             anchors.margins: 4
             anchors.centerIn: parent
             focus: true
+            onActiveFocusChanged: activeFocus ? selectAll() : deselect()
         }
     }
 
