@@ -46,6 +46,22 @@ Rectangle {
                 }
             }
             Button {
+                id: objectOverviewButton
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Objects Overview"
+                onClicked: {
+                    root.state = "objectOverview"
+                }
+            }
+            Button {
+                id: setupExampleButton
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Setup Example"
+                onClicked: {
+                    root.state = "none"
+                }
+            }
+            Button {
                 id: playPauseButton
                 anchors.verticalCenter: parent.verticalCenter
                 text: "Play"
@@ -84,6 +100,15 @@ Rectangle {
         visible: false
         z: -1
     }
+    ObjectOverview {
+        id: objectOverview
+        anchors.bottom: toolbar.top
+        anchors.horizontalCenter: toolbar.horizontalCenter
+        width: toolbar.width/1.2
+        height: root.height/1.2
+        visible: false
+        z: -1
+    }
     states: [
         State {
             name: "addObject"
@@ -93,6 +118,10 @@ Rectangle {
             }
             PropertyChanges {
                 target: forceSelectionToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: objectOverview
                 visible: false
             }
         },
@@ -106,6 +135,25 @@ Rectangle {
                 target: forceSelectionToolBar
                 visible: true
             }
+            PropertyChanges {
+                target: objectOverview
+                visible: false
+            }
+        },
+        State {
+            name: "objectOverview"
+            PropertyChanges {
+                target: addObjectToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: forceSelectionToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: objectOverview
+                visible: true
+            }
         },
         State {
             name: "none"
@@ -115,6 +163,10 @@ Rectangle {
             }
             PropertyChanges {
                 target: forceSelectionToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: objectOverview
                 visible: false
             }
         }

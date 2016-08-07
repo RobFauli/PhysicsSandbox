@@ -4,5 +4,6 @@
     <file>Input.qml</file>
     <file>AddObjectToolBar.qml</file>
     <file>ForceSelectionToolBar.qml</file>
+    <file>ObjectOverview.qml</file>
 </qresource>
 </RCC>
