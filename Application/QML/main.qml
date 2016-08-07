@@ -13,11 +13,12 @@ Rectangle {
     width: 800
     height: 600
     color: "transparent"
+    state: "none"
     Timer {
         id: timer
         interval: 100
         repeat: true
-        running: true
+        running: false
         property real secs: 0
         onTriggered: {
             secs += 0.001*interval
@@ -26,122 +27,96 @@ Rectangle {
     ToolBar {
         id: toolbar
         anchors.bottom: parent.bottom
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Add object"
-            onClicked: {
+        RowLayout{
+        anchors.fill: parent
+            Button {
+                id: addObjectButton
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Add object"
+                onClicked: {
+                    root.state = "addObject"
+                }
+            }
+            Button {
+                id: forceSelectionButton
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Forces"
+                onClicked: {
+                    root.state = "forceSelection"
+                }
+            }
+            Button {
+                id: playPauseButton
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Play"
+                onClicked: {
+                    timer.running = !timer.running
+                    if (timer.running) {
+                        playPauseButton.text = "Pause"
+                    }
+                    else {
+                        playPauseButton.text = "Play"
+                    }
+                }
+            }
+            Text {
+                id: clock
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                text: (timer.secs).toFixed(2)
             }
         }
-        Text {
-            id: clock
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            text: timer.secs
-        }
+
     }
-    ToolBar {
+    AddObjectToolBar {
+        id: addObjectToolBar
         anchors.bottom: toolbar.top
         anchors.horizontalCenter: toolbar.horizontalCenter
         width: toolbar.width/1.2
+        visible: false
         z: -1
-        RowLayout {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.fill: parent
-        Input {
-            id: nameInput
-            KeyNavigation.tab: massInput
-            Layout.minimumWidth: 100
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Name"
-        }
-        Input {
-            id: massInput
-            KeyNavigation.tab: chargeInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "m"
-        }
-        Input {
-            id: chargeInput
-            KeyNavigation.tab: radiusInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "q"
-        }
-        Input {
-            id: radiusInput
-            KeyNavigation.tab: xInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "r"
-        }
-        Input {
-            id: xInput
-            KeyNavigation.tab: yInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "x"
-        }
-        Input {
-            id: yInput
-            KeyNavigation.tab: zInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "y"
-        }
-        Input {
-            id: zInput
-            KeyNavigation.tab: vxInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "z"
-        }
-        Input {
-            id: vxInput
-            KeyNavigation.tab: vyInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "vx"
-        }
-        Input {
-            id: vyInput
-            KeyNavigation.tab: vzInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "vy"
-        }
-        Input {
-            id: vzInput
-            Layout.minimumWidth: 20
-            Layout.fillHeight: true
-            anchors.verticalCenter: parent.verticalCenter
-            text: "vz"
-        }
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Preview"
-            onClicked: {
-                // Add to visualization temporarily.
-            }
-        }
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Add"
-            onClicked: {
-                mngr.addObject(nameInput.text, massInput.text, chargeInput.text, radiusInput.text,
-                xInput.text, yInput.text, zInput.text);
-            }
-        }
-        }
     }
-
+    ForceSelectionToolBar {
+        id: forceSelectionToolBar
+        anchors.bottom: toolbar.top
+        anchors.horizontalCenter: toolbar.horizontalCenter
+        width: toolbar.width/1.2
+        visible: false
+        z: -1
+    }
+    states: [
+        State {
+            name: "addObject"
+            PropertyChanges {
+                target: addObjectToolBar
+                visible: true
+            }
+            PropertyChanges {
+                target: forceSelectionToolBar
+                visible: false
+            }
+        },
+        State {
+            name: "forceSelection"
+            PropertyChanges {
+                target: addObjectToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: forceSelectionToolBar
+                visible: true
+            }
+        },
+        State {
+            name: "none"
+            PropertyChanges {
+                target: addObjectToolBar
+                visible: false
+            }
+            PropertyChanges {
+                target: forceSelectionToolBar
+                visible: false
+            }
+        }
+    ]
 }

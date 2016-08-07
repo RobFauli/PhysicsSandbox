@@ -35,6 +35,7 @@ void QuickView::synchronizeUnderlay()
     _renderer->setView(_camera.GetViewMatrix());
     _renderer->setHeigh(height());
     _renderer->setWidth(width());
+    _mngr.startLiveRendering();
     _mngr.updateObjects();
 }
 void QuickView::initializeUnderlay()

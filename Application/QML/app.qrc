@@ -2,5 +2,7 @@
 <qresource prefix="/">
     <file>main.qml</file>
     <file>Input.qml</file>
+    <file>AddObjectToolBar.qml</file>
+    <file>ForceSelectionToolBar.qml</file>
 </qresource>
 </RCC>

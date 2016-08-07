@@ -9,7 +9,7 @@ void QViPhyManager::startRendering()
 }
 void QViPhyManager::startLiveRendering()
 {
-    _simulation->runNSteps(10);
+    _simulation->runNSteps(100);
         for (auto &object : _objects) {
             object.updateShapePosition();
     }
