@@ -6,6 +6,14 @@ import QtQuick.Layouts 1.3
 Rectangle {
     id: root
 
+    Timer {
+        running: true //root.visible ? true : false
+        interval: 1000
+        repeat: true
+        triggeredOnStart: true
+        onTriggered: objectListModel.updateObjectList()
+    }
+
     ListModel {
         id: objectListModel
 
@@ -22,14 +30,29 @@ Rectangle {
             var names = mngr.getObjectNames()
             var masses = mngr.getObjectMasses()
             var charges = mngr.getObjectCharges()
+
+            for (var i = 0; i<names.length; ++i) {
+                var key = names[i]
+                var pos = mngr.getPosition(key)
+                var vel = mngr.getVelocity(key)
+                var objectData = {"name": key,
+                                  "mass": masses[key], "charge": charges[key],
+                                  "x": pos.x, "y": pos.y, "z": pos.z,
+                                  "vx": vel.x, "vy": vel.y, "vz": vel.z,
+                                 }
+                objectListModel.append(objectData)
+            }
         }
     }
 
-    ListView {
+    TableView {
         anchors.fill: parent
+        TableViewColumn { role: "name"; title: "Name"; width: 100}
+        TableViewColumn { role: "mass"; title: "Mass"; width: 100}
+        TableViewColumn { role: "charge"; title: "Charge"; width: 100}
+        TableViewColumn { role: "x"; title: "x"; width: 100}
+        TableViewColumn { role: "y"; title: "y"; width: 100}
+        TableViewColumn { role: "z"; title: "z"; width: 100}
         model: objectListModel
-        delegate: Text{
-            text: name
-        }
     }
 }

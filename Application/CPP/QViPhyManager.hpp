@@ -3,6 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QVariantMap>
+#include <QtGui/QVector3D>
 
 #include <zconf.h>
 
@@ -44,6 +45,8 @@ public:
     Q_INVOKABLE QList<QString> getObjectNames();
     Q_INVOKABLE QVariantMap getObjectMasses();
     Q_INVOKABLE QVariantMap getObjectCharges();
+    Q_INVOKABLE QVector3D getPosition(const QString &keyname);
+    Q_INVOKABLE QVector3D getVelocity(const QString &keyname);
 
     Q_INVOKABLE void addObject(QString keyname,
                                    qreal mass, qreal charge, qreal radius,

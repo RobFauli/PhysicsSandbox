@@ -149,4 +149,14 @@ void QViPhyManager::removeAllObjects()
     _simulation->removeAllBodies();
     _renderer->removeAllShapes();
 }
+QVector3D QViPhyManager::getPosition(const QString &keyname)
+{
+    auto pos = _objects.find(keyname)->getPosition();
+    return QVector3D(pos.x, pos.y, pos.z);
+}
+QVector3D QViPhyManager::getVelocity(const QString &keyname)
+{
+    auto vel = _objects.find(keyname)->getVelocity();
+    return QVector3D(vel.x, vel.y, vel.z);
+}
 
