@@ -4,7 +4,7 @@
 
 #include <Camera.hpp>
 #include <Renderer.hpp>
-#include <QtQuick/QQuickView>
+#include <QQuickView>
 #include <QOpenGLContext>
 #include "QViPhyManager.hpp"
 
@@ -20,6 +20,10 @@ public slots:
     void synchronizeUnderlay();
     void renderUnderlay();
     void invalidateUnderlay() {};
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 private:
     Camera _camera;
     std::shared_ptr<Renderer> _renderer;

@@ -55,3 +55,12 @@ void QuickView::renderUnderlay()
 {
     _renderer->draw();
 }
+void QuickView::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_F5) { // Reload QML source.
+        auto QMLSource = source();
+        setSource({});
+        engine()->clearComponentCache();
+        setSource(QMLSource);
+    }
+}
