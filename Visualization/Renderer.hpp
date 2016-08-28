@@ -84,9 +84,12 @@ private:
     GLfloat _far = 250.0f;
 
 	std::vector<std::shared_ptr<Shape>> _objects;
-    std::string _vertexPath = "../../Visualization/Shaders/VertexShader.glsl";
-    std::string _geometryPath = "../../Visualization/Shaders/GeometryShader.glsl";
-    std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
+    std::string _vertexPath = "Shaders/VertexShader.glsl";
+    std::string _geometryPath = "Shaders/GeometryShader.glsl";
+    std::string _fragmentPath = "Shaders/FragmentShader.glsl";
+    std::string _shadowVertexPath = "Shaders/Shadow/Omnidirectional/OmniDirVertexShader.glsl";
+    std::string _shadowGeometryPath = "Shaders/Shadow/Omnidirectional/OmniDirGeometryShader.glsl";
+    std::string _shadowFragmentPath = "Shaders/Shadow/Omnidirectional/OmniDirFragmentShader.glsl";
     Shader _shader;
     std::vector<std::shared_ptr<LightSource>> _pointLightSources;
     glm::vec4 _clearColor;

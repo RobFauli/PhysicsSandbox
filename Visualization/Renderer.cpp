@@ -158,9 +158,8 @@ void Renderer::initialize()
     }
     glEnable(GL_DEPTH_TEST);
     _shader = Shader(_vertexPath.c_str(), _geometryPath.c_str(), _fragmentPath.c_str());
-    _depthShader = std::make_shared<Shader>("../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirVertexShader.glsl",
-           "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirGeometryShader.glsl",
-           "../../Visualization/Shaders/Shadow/Omnidirectional/OmniDirFragmentShader.glsl");
+    _depthShader = std::make_shared<Shader>(_shadowVertexPath.c_str(),
+           _shadowGeometryPath.c_str(), _shadowFragmentPath.c_str());
     glGenFramebuffers(1, &_depthMapFBO);
 }
 
