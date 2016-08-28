@@ -6,5 +6,6 @@ bin/*
 *CMakeFiles
 *cmake_install.cmake
 *Makefile
-main.cpp
 CMakeLists.txt.user
+*gtest_main.cc
+moc*
