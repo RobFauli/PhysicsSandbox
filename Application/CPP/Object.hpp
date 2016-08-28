@@ -8,10 +8,10 @@
 class Object
 {
 public:
-    Object(std::shared_ptr<Shader> &shader,
+    Object(std::shared_ptr<Shader> shader,
            double mass, double charge,
            float length, float width, float height); // Cube
-    Object(std::shared_ptr<Shader> &shader,
+    Object(std::shared_ptr<Shader> shader,
            double mass, double charge,
            float radius); // Sphere
     Object(std::shared_ptr<Body> pp, std::shared_ptr<Shape> shape)
