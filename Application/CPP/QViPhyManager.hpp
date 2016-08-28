@@ -81,9 +81,6 @@ private:
 
     ODESolverEnum _odeSolverEnum = ODESolverEnum::LEAPFROG;
 
-    std::string _vertexPath = "../../Visualization/Shaders/VertexShader.glsl";
-    std::string _geometryPath = "../../Visualization/Shaders/GeometryShader.glsl";
-    std::string _fragmentPath = "../../Visualization/Shaders/FragmentShader.glsl";
     std::shared_ptr<Shader> _shader;
     void loadSimulation();
     void loadRenderer();

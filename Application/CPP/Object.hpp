@@ -57,10 +57,10 @@ public:
         return _physicalProperties->getVelocity();
     }
 
-    std::shared_ptr<Body> const &getBody() const {
+    const std::shared_ptr<Body> getBody() const {
         return _physicalProperties;
     }
-    std::shared_ptr<Shape> const &getShape() const {
+    const std::shared_ptr<Shape> getShape() const {
         return _shape;
     }
 
