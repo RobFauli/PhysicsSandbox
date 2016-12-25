@@ -1,6 +1,11 @@
 *.so
 *.a
 *.idea*
+build
+.kdev4
+*.kdev4
+cmake-*
+*.depends
 bin/*
 *CMakeCache.txt
 *CMakeFiles
