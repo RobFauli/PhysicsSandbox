@@ -8,8 +8,8 @@ import QtQuick.Layouts 1.3
 ToolBar {
     id: addObjectToolBar
     RowLayout {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.fill: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.fill: parent
         Input {
             id: nameInput
             KeyNavigation.tab: massInput
