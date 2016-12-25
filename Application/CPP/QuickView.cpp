@@ -62,5 +62,7 @@ void QuickView::keyPressEvent(QKeyEvent *event)
         setSource({});
         engine()->clearComponentCache();
         setSource(QMLSource);
+    } else {
+        QQuickWindow::keyPressEvent(event); // Handle normally.
     }
 }
