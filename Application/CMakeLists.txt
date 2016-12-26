@@ -9,6 +9,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
         
 if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DNO_QRC)
+else()
     set(CMAKE_AUTORCC ON)
     qt5_add_resources(RESOURCES QML/app.qrc)
 endif()
