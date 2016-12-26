@@ -13,7 +13,7 @@ class QuickView : public QQuickView
     Q_OBJECT
 
 public:
-    QuickView(QWindow *parent = 0);
+    explicit QuickView(QUrl qmlUrl, QWindow *parent = 0);
 
 public slots:
     void initializeUnderlay();

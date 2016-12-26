@@ -1,6 +1,6 @@
 #include "QuickView.hpp"
 
-QuickView::QuickView(QWindow *parent)
+QuickView::QuickView(QUrl qmlUrl, QWindow *parent)
     : QQuickView(parent),
       _camera(Camera()),
       _renderer(std::make_shared<Renderer>(Renderer()))
@@ -27,7 +27,7 @@ QuickView::QuickView(QWindow *parent)
     setResizeMode(SizeRootObjectToView);
     _mngr.registerEnumsQML();
     rootContext()->setContextProperty("mngr", &_mngr);
-    setSource(QUrl("qrc:/main.qml"));
+    setSource(qmlUrl);
 }
 void QuickView::synchronizeUnderlay()
 {
