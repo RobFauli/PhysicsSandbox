@@ -16,9 +16,11 @@
 class Triangles : public Shape {
 public:
 	virtual ~Triangles() {
-		//glDeleteVertexArrays(1, &VAO);
-		//glDeleteBuffers(1, &VBO);
-		//glDeleteBuffers(1, &EBO);
+        if (buffersAndVertexArrayAllocated) {
+            glDeleteVertexArrays(1, &VAO);
+            glDeleteBuffers(1, &VBO);
+            glDeleteBuffers(1, &EBO);
+        }
 	}
 
 	virtual GLuint getVAO() override { return VAO; };
@@ -33,6 +35,7 @@ public:
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 		glGenBuffers(1, &EBO);
+		buffersAndVertexArrayAllocated = true;
         subSetup();
 	}
 	void subSetup();
@@ -100,6 +103,7 @@ protected:
 	Triangles() { };
 
 	GLuint VAO, VBO, EBO;
+    bool buffersAndVertexArrayAllocated = false;
 	std::vector<GLfloat> _vertices;
 	std::vector<GLuint> _indices;
 	glm::vec3 _position; // Position in world coordinates of all objects.
