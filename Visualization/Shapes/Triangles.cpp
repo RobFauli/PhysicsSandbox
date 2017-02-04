@@ -7,8 +7,6 @@
 
 void Triangles::subSetup()
 {
-
-
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

@@ -14,6 +14,7 @@ Rectangle {
     height: 600
     color: "transparent"
     state: "none"
+
     Timer {
         id: timer
         interval: 100
@@ -59,6 +60,9 @@ Rectangle {
                 text: "Setup Example"
                 onClicked: {
                     root.state = "none"
+                    //mngr.addForce(ForceEnum.GRAVITY)
+                    mngr.addObject("sol", 1e5, 0, 1.0, 0, 0, -6);
+                    //mngr.startLiveRendering();
                 }
             }
             Button {

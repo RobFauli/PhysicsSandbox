@@ -1,6 +1,5 @@
 #include "gtest/gtest.h"
 #include "../../Physics/Simulation.hpp"
-#include "../../Physics/PhysicalConstants.hpp"
 
 //SCENARIO("Neutral particles and only the gravitational force") {
 TEST(Force, GravityEarthSurface) {
