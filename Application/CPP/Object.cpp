@@ -10,7 +10,7 @@ Object::Object(std::shared_ptr<Shader> shader, double mass, double charge,
 }
 Object::Object(std::shared_ptr<Shader> shader, double mass, double charge, float radius)
     : _physicalProperties(std::make_shared<PointParticle>(PointParticle(mass, charge))),
-      _shape(std::make_shared<IcoSphere>(shader, 4u, radius))
+      _shape(std::make_shared<IcoSphere>(shader, 3u, radius)) // TODO Set refinement levels elsewhere.
 {
 
 }

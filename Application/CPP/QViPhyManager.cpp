@@ -46,7 +46,7 @@ void QViPhyManager::addObject(QString keyname,
             _shader, mass, charge, radius)
     );
     _newObjects.find(keyname).value().setPosition(x, y, z);
-    _newObjects.find(keyname).value().setColor(1.0f, 0.0f, 0.0f);
+    _newObjects.find(keyname).value().setColor(1.0f, 0.0f, 0.0f); // TODO User should be able to pick color.
 }
 void QViPhyManager::removeObject(QString keyname)
 {
