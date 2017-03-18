@@ -1,7 +1,6 @@
 import Enums 1.0
 import QtQuick 2.7
-import QtQuick.Controls 1.5
-import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 
 //mngr.addForce(ForceEnum.GRAVITY)
@@ -62,7 +61,7 @@ Rectangle {
                     root.state = "none"
                     //mngr.addForce(ForceEnum.GRAVITY)
                     mngr.addObject("sol", 1e5, 0, 1.0, 0, 0, -6);
-                    //mngr.startLiveRendering();
+                    mngr.setObjectVelocity("sol", 0, 0, 0);
                 }
             }
             Button {
@@ -104,6 +103,7 @@ Rectangle {
         visible: false
         z: -1
     }
+    /* // Disabled awaiting TableView in QtQuick.Controls 2.
     ObjectOverview {
         id: objectOverview
         anchors.bottom: toolbar.top
@@ -113,6 +113,7 @@ Rectangle {
         visible: false
         z: -1
     }
+    */
     states: [
         State {
             name: "addObject"
@@ -124,10 +125,12 @@ Rectangle {
                 target: forceSelectionToolBar
                 visible: false
             }
+    /* // Disabled awaiting TableView in QtQuick.Controls 2.
             PropertyChanges {
                 target: objectOverview
                 visible: false
             }
+            */
         },
         State {
             name: "forceSelection"
@@ -139,11 +142,14 @@ Rectangle {
                 target: forceSelectionToolBar
                 visible: true
             }
+    /* // Disabled awaiting TableView in QtQuick.Controls 2.
             PropertyChanges {
                 target: objectOverview
                 visible: false
             }
+            */
         },
+    /* // Disabled awaiting TableView in QtQuick.Controls 2.
         State {
             name: "objectOverview"
             PropertyChanges {
@@ -158,7 +164,8 @@ Rectangle {
                 target: objectOverview
                 visible: true
             }
-        },
+        }, 
+        */
         State {
             name: "none"
             PropertyChanges {
@@ -169,10 +176,12 @@ Rectangle {
                 target: forceSelectionToolBar
                 visible: false
             }
+    /* // Disabled awaiting TableView in QtQuick.Controls 2.
             PropertyChanges {
                 target: objectOverview
                 visible: false
             }
+            */
         }
     ]
 }
